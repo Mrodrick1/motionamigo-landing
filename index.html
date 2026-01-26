@@ -31,13 +31,13 @@
             align-items: center;
             justify-content: center;
             gap: 60px;
-            max-width: 1400px;
+            max-width: 1800px;
             width: 100%;
         }
 
         .screenshot {
             flex-shrink: 0;
-            width: 420px;
+            width: 630px;
             border-radius: 12px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             opacity: 0.85;
@@ -48,20 +48,34 @@
             opacity: 1;
         }
 
-        .screenshot-left {
-            transform: perspective(1000px) rotateY(5deg) translateY(-40px);
+        .screenshot-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .screenshot-stack-left .screenshot-top {
+            transform: perspective(1000px) rotateY(5deg) translateX(40px);
+        }
+
+        .screenshot-stack-left .screenshot-bottom {
+            transform: perspective(1000px) rotateY(5deg) translateX(-40px);
+        }
+
+        .screenshot-stack-left .screenshot-top:hover {
+            transform: perspective(1000px) rotateY(5deg) translateX(40px) scale(1.02);
+        }
+
+        .screenshot-stack-left .screenshot-bottom:hover {
+            transform: perspective(1000px) rotateY(5deg) translateX(-40px) scale(1.02);
         }
 
         .screenshot-right {
-            transform: perspective(1000px) rotateY(-5deg) translateY(40px);
-        }
-
-        .screenshot-left:hover {
-            transform: perspective(1000px) rotateY(5deg) translateY(-40px) scale(1.02);
+            transform: perspective(1000px) rotateY(-5deg);
         }
 
         .screenshot-right:hover {
-            transform: perspective(1000px) rotateY(-5deg) translateY(40px) scale(1.02);
+            transform: perspective(1000px) rotateY(-5deg) scale(1.02);
         }
 
         .container {
@@ -148,6 +162,12 @@
             font-size: 1rem;
         }
 
+        @media (max-width: 1400px) {
+            .screenshot {
+                width: 480px;
+            }
+        }
+
         @media (max-width: 1200px) {
             .layout {
                 flex-direction: column;
@@ -163,7 +183,7 @@
                 transform: scale(1.02) !important;
             }
 
-            .screenshot-left {
+            .screenshot-stack-left {
                 order: 2;
             }
 
@@ -173,6 +193,12 @@
 
             .container {
                 order: 1;
+            }
+
+            .screenshot-stack {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
             }
         }
 
@@ -198,7 +224,10 @@
 </head>
 <body>
     <div class="layout">
-        <img src="screenshot1.png" alt="MotionAmigo UI" class="screenshot screenshot-left">
+        <div class="screenshot-stack screenshot-stack-left">
+            <img src="screenshot1.png" alt="MotionAmigo UI" class="screenshot screenshot-top">
+            <img src="screenshot2.png" alt="MotionAmigo Spiral Generator" class="screenshot screenshot-bottom">
+        </div>
         
         <div class="container">
             <h1>MotionAmigo</h1>
@@ -212,7 +241,7 @@
             <p class="success-message" id="success">Thanks! We'll let you know when we launch.</p>
         </div>
 
-        <img src="screenshot2.png" alt="MotionAmigo Spiral Generator" class="screenshot screenshot-right">
+        <img src="screenshot1.png" alt="MotionAmigo UI" class="screenshot screenshot-right">
     </div>
 
     <footer class="footer">Create Responsibly</footer>
