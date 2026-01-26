@@ -37,7 +37,7 @@
 
         .screenshot {
             flex-shrink: 0;
-            width: 320px;
+            width: 420px;
             border-radius: 12px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             opacity: 0.85;
@@ -46,23 +46,22 @@
 
         .screenshot:hover {
             opacity: 1;
-            transform: scale(1.02);
         }
 
         .screenshot-left {
-            transform: perspective(1000px) rotateY(5deg);
+            transform: perspective(1000px) rotateY(5deg) translateY(-40px);
         }
 
         .screenshot-right {
-            transform: perspective(1000px) rotateY(-5deg);
+            transform: perspective(1000px) rotateY(-5deg) translateY(40px);
         }
 
         .screenshot-left:hover {
-            transform: perspective(1000px) rotateY(5deg) scale(1.02);
+            transform: perspective(1000px) rotateY(5deg) translateY(-40px) scale(1.02);
         }
 
         .screenshot-right:hover {
-            transform: perspective(1000px) rotateY(-5deg) scale(1.02);
+            transform: perspective(1000px) rotateY(-5deg) translateY(40px) scale(1.02);
         }
 
         .container {
@@ -83,6 +82,16 @@
             color: #fff;
             font-size: 1.1rem;
             margin-bottom: 2.5rem;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #fff;
+            font-size: 0.85rem;
         }
 
         form {
@@ -116,16 +125,16 @@
             padding: 14px 28px;
             font-size: 1rem;
             font-weight: 600;
-            border: none;
+            border: 1px solid #333;
             border-radius: 8px;
-            background: #fff;
-            color: #0a0a0a;
+            background: #141414;
+            color: #fff;
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
         }
 
         button:hover {
-            background: #e0e0e0;
+            background: #222;
         }
 
         button:active {
@@ -139,14 +148,14 @@
             font-size: 1rem;
         }
 
-        @media (max-width: 1100px) {
+        @media (max-width: 1200px) {
             .layout {
                 flex-direction: column;
                 gap: 40px;
             }
 
             .screenshot {
-                width: 280px;
+                width: 340px;
                 transform: none !important;
             }
 
@@ -193,10 +202,10 @@
         
         <div class="container">
             <h1>MotionAmigo</h1>
-            <p class="tagline">Your natural language interface for After Effects</p>
+            <p class="tagline">Your natural language assistant for After Effects</p>
             
             <form id="signup-form">
-                <input type="email" name="email" id="email" placeholder="you@email.com" required>
+                <input type="email" name="email" id="email" placeholder="enter email to learn more" required>
                 <button type="submit">Notify me</button>
             </form>
             
@@ -205,6 +214,8 @@
 
         <img src="screenshot2.png" alt="MotionAmigo Spiral Generator" class="screenshot screenshot-right">
     </div>
+
+    <footer class="footer">Create Responsibly</footer>
 
     <script>
         document.getElementById('signup-form').addEventListener('submit', function(e) {
