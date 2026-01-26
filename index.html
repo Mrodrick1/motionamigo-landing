@@ -23,12 +23,53 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .layout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .screenshot {
+            flex-shrink: 0;
+            width: 320px;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            opacity: 0.85;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .screenshot:hover {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+
+        .screenshot-left {
+            transform: perspective(1000px) rotateY(5deg);
+        }
+
+        .screenshot-right {
+            transform: perspective(1000px) rotateY(-5deg);
+        }
+
+        .screenshot-left:hover {
+            transform: perspective(1000px) rotateY(5deg) scale(1.02);
+        }
+
+        .screenshot-right:hover {
+            transform: perspective(1000px) rotateY(-5deg) scale(1.02);
         }
 
         .container {
             text-align: center;
             max-width: 480px;
             width: 100%;
+            flex-shrink: 0;
         }
 
         h1 {
@@ -98,6 +139,34 @@
             font-size: 1rem;
         }
 
+        @media (max-width: 1100px) {
+            .layout {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .screenshot {
+                width: 280px;
+                transform: none !important;
+            }
+
+            .screenshot:hover {
+                transform: scale(1.02) !important;
+            }
+
+            .screenshot-left {
+                order: 2;
+            }
+
+            .screenshot-right {
+                order: 3;
+            }
+
+            .container {
+                order: 1;
+            }
+        }
+
         @media (max-width: 500px) {
             h1 {
                 font-size: 2.2rem;
@@ -110,21 +179,31 @@
             button {
                 width: 100%;
             }
+
+            .screenshot {
+                width: 100%;
+                max-width: 300px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>MotionAmigo</h1>
-        <p class="tagline">Your natural language interface for After Effects</p>
+    <div class="layout">
+        <img src="screenshot1.png" alt="MotionAmigo UI" class="screenshot screenshot-left">
         
-        <!-- Email signup form -->
-        <form id="signup-form">
-            <input type="email" name="email" id="email" placeholder="you@email.com" required>
-            <button type="submit">Notify me</button>
-        </form>
-        
-        <p class="success-message" id="success">Thanks! We'll let you know when we launch.</p>
+        <div class="container">
+            <h1>MotionAmigo</h1>
+            <p class="tagline">Your natural language interface for After Effects</p>
+            
+            <form id="signup-form">
+                <input type="email" name="email" id="email" placeholder="you@email.com" required>
+                <button type="submit">Notify me</button>
+            </form>
+            
+            <p class="success-message" id="success">Thanks! We'll let you know when we launch.</p>
+        </div>
+
+        <img src="screenshot2.png" alt="MotionAmigo Spiral Generator" class="screenshot screenshot-right">
     </div>
 
     <script>
