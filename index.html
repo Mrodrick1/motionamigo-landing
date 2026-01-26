@@ -31,7 +31,7 @@
             align-items: center;
             justify-content: center;
             gap: 60px;
-            max-width: 1800px;
+            max-width: 1600px;
             width: 100%;
         }
 
@@ -46,36 +46,22 @@
 
         .screenshot:hover {
             opacity: 1;
-            transform: scale(1.02);
         }
 
-        .screenshot-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .screenshot-stack-left .screenshot-top {
-            transform: translateX(40px);
-        }
-
-        .screenshot-stack-left .screenshot-bottom {
-            transform: translateX(-40px);
-        }
-
-        .screenshot-stack-left .screenshot-top:hover {
-            transform: translateX(40px) scale(1.02);
-        }
-
-        .screenshot-stack-left .screenshot-bottom:hover {
-            transform: translateX(-40px) scale(1.02);
+        .screenshot-left {
+            transform: perspective(1000px) rotateY(5deg);
         }
 
         .screenshot-right {
+            transform: perspective(1000px) rotateY(-5deg);
+        }
+
+        .screenshot-left:hover {
+            transform: perspective(1000px) rotateY(5deg) scale(1.02);
         }
 
         .screenshot-right:hover {
-            transform: scale(1.02);
+            transform: perspective(1000px) rotateY(-5deg) scale(1.02);
         }
 
         .container {
@@ -183,7 +169,7 @@
                 transform: scale(1.02) !important;
             }
 
-            .screenshot-stack-left {
+            .screenshot-left {
                 order: 2;
             }
 
@@ -193,12 +179,6 @@
 
             .container {
                 order: 1;
-            }
-
-            .screenshot-stack {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
             }
         }
 
@@ -224,10 +204,7 @@
 </head>
 <body>
     <div class="layout">
-        <div class="screenshot-stack screenshot-stack-left">
-            <img src="screenshot1.png" alt="MotionAmigo UI" class="screenshot screenshot-top">
-            <img src="screenshot2.png" alt="MotionAmigo Spiral Generator" class="screenshot screenshot-bottom">
-        </div>
+        <img src="screenshot1.png" alt="MotionAmigo UI" class="screenshot screenshot-left">
         
         <div class="container">
             <h1>MotionAmigo</h1>
@@ -241,7 +218,7 @@
             <p class="success-message" id="success">Thanks! We'll let you know when we launch.</p>
         </div>
 
-        <img src="screenshot1.png" alt="MotionAmigo UI" class="screenshot screenshot-right">
+        <img src="screenshot2.png" alt="MotionAmigo Spiral Generator" class="screenshot screenshot-right">
     </div>
 
     <footer class="footer">Create Responsibly</footer>
