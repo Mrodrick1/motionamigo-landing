@@ -37,7 +37,7 @@
 
         .screenshot {
             flex-shrink: 0;
-            width: 630px;
+            width: 472px;
             border-radius: 12px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             opacity: 0.85;
@@ -46,6 +46,7 @@
 
         .screenshot:hover {
             opacity: 1;
+            transform: scale(1.02);
         }
 
         .screenshot-stack {
@@ -55,27 +56,26 @@
         }
 
         .screenshot-stack-left .screenshot-top {
-            transform: perspective(1000px) rotateY(5deg) translateX(40px);
+            transform: translateX(40px);
         }
 
         .screenshot-stack-left .screenshot-bottom {
-            transform: perspective(1000px) rotateY(5deg) translateX(-40px);
+            transform: translateX(-40px);
         }
 
         .screenshot-stack-left .screenshot-top:hover {
-            transform: perspective(1000px) rotateY(5deg) translateX(40px) scale(1.02);
+            transform: translateX(40px) scale(1.02);
         }
 
         .screenshot-stack-left .screenshot-bottom:hover {
-            transform: perspective(1000px) rotateY(5deg) translateX(-40px) scale(1.02);
+            transform: translateX(-40px) scale(1.02);
         }
 
         .screenshot-right {
-            transform: perspective(1000px) rotateY(-5deg);
         }
 
         .screenshot-right:hover {
-            transform: perspective(1000px) rotateY(-5deg) scale(1.02);
+            transform: scale(1.02);
         }
 
         .container {
@@ -164,7 +164,7 @@
 
         @media (max-width: 1400px) {
             .screenshot {
-                width: 480px;
+                width: 360px;
             }
         }
 
