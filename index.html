@@ -2084,6 +2084,17 @@
       pendulumState.points = [];
       renderPendulum();
     });
+
+    // Auto-start pendulum when in view
+    const pendulumObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !pendulumState.running) {
+          pendulumState.running = true;
+          pendulumState.paused = false;
+        }
+      });
+    }, { threshold: 0.3 });
+    pendulumObserver.observe(document.getElementById('pendulum-canvas'));
   </script>
 </body>
 </html>
