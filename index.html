@@ -214,7 +214,7 @@
         font-size: 28px;
       }
       
-      .marketing-copy h2 {
+      .marketing-copy h3 {
         font-size: 18px;
       }
       
@@ -232,6 +232,10 @@
 
       .hero button {
         width: 100%;
+      }
+
+      .cta-more {
+        font-size: 16px;
       }
     }
 
@@ -702,7 +706,15 @@
       border-radius: 6px;
       font-family: 'SF Mono', 'Fira Code', monospace;
       font-size: 10px;
-      line-height: 1.7;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stats-overlay > div {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
     }
 
     .stats-overlay .label {
@@ -711,8 +723,8 @@
 
     .stats-overlay .value {
       color: var(--accent-primary);
-      margin-left: 6px;
       font-weight: 600;
+      text-align: right;
     }
 
     .gravity-arrow {
@@ -948,7 +960,7 @@
       letter-spacing: -1px;
     }
 
-    .marketing-copy h2 {
+    .marketing-copy h3 {
       font-size: 28px;
       font-weight: 100;
       line-height: 1.4;
@@ -980,14 +992,20 @@
     .footer {
       padding: 40px 20px 30px;
       text-align: center;
-      color: var(--text-primary);
+    }
+
+    .footer-tagline {
       font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      letter-spacing: 0.3px;
     }
 
     .footer-credit {
       margin-top: 10px;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
+      opacity: 0.7;
     }
 
     .footer-credit a {
@@ -1010,10 +1028,14 @@
 
     .cta-more {
       font-family: 'Inter', sans-serif;
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 400;
       color: var(--text-primary);
       margin-bottom: 12px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
     }
 
     .cta-tagline {
@@ -1235,8 +1257,8 @@
     <div class="feature-layout">
       <!-- Left: Title + Marketing Copy -->
       <div class="marketing-copy">
-        <h1 class="feature-title">Build with Context</h1>
-        <h2>Add components, set parameters, and write instructions to easily and effectively communicate with AI.</h2>
+        <h2 class="feature-title">Build with Context</h2>
+        <h3>Add components, set parameters, and write instructions to easily and effectively communicate with AI.</h3>
       </div>
 
       <!-- Right: Workflow Demo -->
@@ -1321,8 +1343,8 @@
     <div class="feature-layout">
       <!-- Left: Title + Marketing Copy -->
       <div class="marketing-copy">
-        <h1 class="feature-title">Motion Paths</h1>
-        <h2>Generate motion paths from simple shapes to 3D harmonographs, or draw your own.</h2>
+        <h2 class="feature-title">Motion Paths</h2>
+        <h3>Generate motion paths from simple shapes to 3D harmonographs, or draw your own.</h3>
       </div>
 
       <!-- Right: Interactive Demo -->
@@ -1506,8 +1528,8 @@
 
       <!-- Right: Title + Marketing Copy -->
       <div class="marketing-copy">
-        <h1 class="feature-title">Physics Tester</h1>
-        <h2>Quickly dial in your physics behavior.</h2>
+        <h2 class="feature-title">Physics Tester</h2>
+        <h3>Quickly dial in your physics behavior.</h3>
       </div>
     </div>
   </section>
@@ -1564,15 +1586,15 @@
 
       <!-- Right: Title + Marketing Copy -->
       <div class="marketing-copy">
-        <h1 class="feature-title">Typography & Color</h1>
-        <h2>Define your type hierarchy and colors, and let AI apply them consistently.</h2>
+        <h2 class="feature-title">Typography & Color</h2>
+        <h3>Define your type hierarchy and colors, and let AI apply them consistently.</h3>
       </div>
     </div>
   </section>
 
   <!-- Final CTA Section -->
   <section class="cta-section">
-    <p class="cta-more">Plus many more features.</p>
+    <p class="cta-more">Create presets and expressions, and run consistency checks across your entire project. Plus much more inside MotionAmigo.</p>
     <p class="cta-tagline">Dial it in. Build faster with AI.</p>
     <form id="signup-form-bottom" class="cta-form">
       <input type="email" name="email" id="email-bottom" placeholder="Early access soon" required>
@@ -1582,7 +1604,7 @@
   </section>
 
   <footer class="footer">
-    <p>Create Responsibly</p>
+    <p class="footer-tagline">Create Responsibly.</p>
     <p class="footer-credit">MotionAmigo is a plugin by <a href="https://miguelrodrick.com" target="_blank">miguelrodrick.com</a></p>
   </footer>
 
