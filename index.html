@@ -201,7 +201,10 @@
       }
       
       .feature-layout .demo-panel,
-      .feature-layout .static-panel {
+      .feature-layout .static-panel,
+      .feature-layout .workflow-demo,
+      .feature-layout .workflow-typography,
+      .feature-layout .workflow-color {
         order: 2;
         width: 100%;
         max-width: 500px;
@@ -230,6 +233,411 @@
       .hero button {
         width: 100%;
       }
+    }
+
+    /* ==================== WORKFLOW DEMO ==================== */
+    .workflow-demo {
+      background: var(--bg-medium);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 380px;
+    }
+
+    .workflow-dropdown {
+      position: relative;
+    }
+
+    .workflow-dropdown-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 500;
+      transition: border-color 0.2s;
+    }
+
+    .workflow-dropdown-btn.active {
+      border-color: var(--text-muted);
+    }
+
+    .workflow-dropdown-menu {
+      margin-top: 4px;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.45s ease, opacity 0.3s ease;
+    }
+
+    .workflow-dropdown-menu.open {
+      max-height: 200px;
+      opacity: 1;
+    }
+
+    .workflow-dropdown-item {
+      padding: 8px 14px;
+      font-size: 11px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .workflow-dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .workflow-dropdown-item.hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary);
+    }
+
+    .workflow-dropdown-item.selected {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    .workflow-component {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.6s ease, opacity 0.45s ease;
+    }
+
+    .workflow-component.visible {
+      max-height: 200px;
+      opacity: 1;
+    }
+
+    .workflow-component-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .workflow-component-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.5px;
+    }
+
+    .workflow-component-chevron {
+      font-size: 8px;
+      color: var(--text-muted);
+    }
+
+    .workflow-component-content {
+      padding: 12px;
+    }
+
+    .workflow-transform-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .workflow-transform-name {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-right: auto;
+    }
+
+    .workflow-inout {
+      display: flex;
+      gap: 2px;
+    }
+
+    .workflow-inout-btn {
+      padding: 4px 8px;
+      font-size: 9px;
+      font-weight: 600;
+      background: var(--bg-medium);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      border-radius: 3px;
+    }
+
+    .workflow-inout-btn.active {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--text-muted);
+      color: #fff;
+    }
+
+    .workflow-arrows {
+      display: flex;
+      gap: 2px;
+    }
+
+    .workflow-arrow {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      background: var(--bg-medium);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      border-radius: 3px;
+    }
+
+    .workflow-arrow.active {
+      border-color: var(--text-secondary);
+      color: var(--text-primary);
+    }
+
+    .workflow-input {
+      width: 50px;
+      padding: 5px 8px;
+      font-size: 10px;
+      text-align: center;
+      background: var(--bg-medium);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      color: var(--text-primary);
+    }
+
+    .workflow-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .workflow-add-btn {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 400;
+      background: var(--bg-medium);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      border-radius: 3px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .workflow-add-btn.active {
+      border-color: var(--text-secondary);
+      color: var(--text-primary);
+    }
+
+    .workflow-qualifiers {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: flex-end;
+    }
+
+    .workflow-qualifier {
+      padding: 4px 10px;
+      font-size: 9px;
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--text-muted);
+      border-radius: 12px;
+      color: var(--text-secondary);
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .workflow-qualifier.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .workflow-prompt {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.6s ease, opacity 0.45s ease;
+    }
+
+    .workflow-prompt.visible {
+      max-height: 150px;
+      opacity: 1;
+    }
+
+    .workflow-typography {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.6s ease, opacity 0.45s ease;
+    }
+
+    .workflow-typography.visible {
+      max-height: 200px;
+      opacity: 1;
+    }
+
+    .workflow-color {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.6s ease, opacity 0.45s ease;
+    }
+
+    .workflow-color.visible {
+      max-height: 200px;
+      opacity: 1;
+    }
+
+    .workflow-color-content {
+      padding: 12px;
+    }
+
+    .workflow-color-swatches {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .workflow-swatch {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .workflow-swatch.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .workflow-swatch-add {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1px dashed var(--border-color);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .workflow-typo-content {
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .workflow-typo-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .workflow-typo-name {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-muted);
+      width: 50px;
+      flex-shrink: 0;
+    }
+
+    .workflow-typo-btn {
+      padding: 5px 8px;
+      font-size: 9px;
+      background: var(--bg-medium);
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      color: #c0c0c8;
+      text-align: center;
+    }
+
+    .workflow-typo-btn.font-family {
+      width: 75px;
+      flex-shrink: 0;
+    }
+
+    .workflow-typo-btn.font-weight {
+      width: 55px;
+      flex-shrink: 0;
+    }
+
+    .workflow-input-sm {
+      width: 35px;
+      flex-shrink: 0;
+      padding: 5px 6px;
+      font-size: 9px;
+      text-align: center;
+      background: var(--bg-medium);
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      color: #c0c0c8;
+    }
+
+    .workflow-prompt-header {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .workflow-prompt-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.5px;
+    }
+
+    .workflow-prompt-content {
+      padding: 14px;
+      min-height: 50px;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    .workflow-prompt-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 16px;
+      background: var(--text-secondary);
+      margin-left: 1px;
+      animation: blink 1s infinite;
+      vertical-align: text-bottom;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
     }
 
     /* ==================== DEMO PANEL ==================== */
@@ -576,6 +984,22 @@
       font-size: 0.85rem;
     }
 
+    .footer-credit {
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .footer-credit a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-credit a:hover {
+      color: var(--text-primary);
+    }
+
     /* CTA Section */
     .cta-section {
       padding: 80px 40px;
@@ -806,6 +1230,186 @@
     </div>
   </section>
 
+  <!-- Workflow Demo Section -->
+  <section class="feature-section">
+    <div class="feature-layout">
+      <!-- Left: Title + Marketing Copy -->
+      <div class="marketing-copy">
+        <h1 class="feature-title">Build with Context</h1>
+        <h2>Add components, set parameters, and write instructions to effectively communicate with AI.</h2>
+      </div>
+
+      <!-- Right: Workflow Demo -->
+      <div class="workflow-demo" id="workflow-demo">
+        <!-- Component Dropdown -->
+        <div class="workflow-dropdown" id="workflow-dropdown">
+          <div class="workflow-dropdown-btn" id="dropdown-btn">
+            <span id="dropdown-label">Add Component</span>
+            <svg width="12" height="12" viewBox="0 0 16 16"><path d="M8 11L3 6H13L8 11Z" fill="currentColor"/></svg>
+          </div>
+          <div class="workflow-dropdown-menu" id="dropdown-menu">
+            <div class="workflow-dropdown-item" id="item-prompt">Instructions</div>
+            <div class="workflow-dropdown-item" id="item-transforms">Basic Transforms</div>
+            <div class="workflow-dropdown-item" id="item-color">Color</div>
+            <div class="workflow-dropdown-item">Motion Path</div>
+            <div class="workflow-dropdown-item">Typography</div>
+          </div>
+        </div>
+
+        <!-- Component: Text Prompt -->
+        <div class="workflow-prompt" id="workflow-prompt">
+          <div class="workflow-prompt-header">
+            <span class="workflow-prompt-title">INSTRUCTIONS</span>
+          </div>
+          <div class="workflow-prompt-content">
+            <span id="typed-text"></span><span class="workflow-prompt-cursor" id="typing-cursor"></span>
+          </div>
+        </div>
+
+        <!-- Component: Basic Transforms -->
+        <div class="workflow-component" id="workflow-component">
+          <div class="workflow-component-header">
+            <span class="workflow-component-title">BASIC TRANSFORMS</span>
+            <span class="workflow-component-chevron">▼</span>
+          </div>
+          <div class="workflow-component-content">
+            <div class="workflow-transform-row">
+              <span class="workflow-transform-name">POSITION</span>
+              <div class="workflow-inout">
+                <button class="workflow-inout-btn" id="btn-in">IN</button>
+                <button class="workflow-inout-btn" id="btn-out">OUT</button>
+              </div>
+              <div class="workflow-arrows">
+                <button class="workflow-arrow" id="arrow-up"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M8 4L13 11H3L8 4Z" fill="currentColor"/></svg></button>
+                <button class="workflow-arrow" id="arrow-down"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M8 12L3 5H13L8 12Z" fill="currentColor"/></svg></button>
+                <button class="workflow-arrow" id="arrow-left"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M4 8L11 3V13L4 8Z" fill="currentColor"/></svg></button>
+                <button class="workflow-arrow" id="arrow-right"><svg width="10" height="10" viewBox="0 0 16 16"><path d="M12 8L5 13V3L12 8Z" fill="currentColor"/></svg></button>
+              </div>
+              <input type="text" class="workflow-input" id="input-distance" placeholder="px" value="" readonly>
+              <input type="text" class="workflow-input" id="input-frames" placeholder="frames" value="" readonly>
+              <button class="workflow-add-btn" id="add-qualifier">+</button>
+            </div>
+            <div class="workflow-qualifiers" id="workflow-qualifiers">
+              <div class="workflow-qualifier" id="qual-bounce">Bounce</div>
+              <div class="workflow-qualifier" id="qual-anticipation">Anticipation</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Component: Color -->
+        <div class="workflow-color" id="workflow-color">
+          <div class="workflow-component-header">
+            <span class="workflow-component-title">COLOR</span>
+            <span class="workflow-component-chevron">▼</span>
+          </div>
+          <div class="workflow-color-content">
+            <div class="workflow-color-swatches">
+              <div class="workflow-swatch" id="swatch-1" style="background: #EE4540;"></div>
+              <div class="workflow-swatch" id="swatch-2" style="background: #C72C41;"></div>
+              <div class="workflow-swatch" id="swatch-3" style="background: #801336;"></div>
+              <div class="workflow-swatch" id="swatch-4" style="background: #2D132C;"></div>
+              <div class="workflow-swatch-add">+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Motion Paths Feature Section -->
+  <section class="feature-section">
+    <div class="feature-layout">
+      <!-- Left: Title + Marketing Copy -->
+      <div class="marketing-copy">
+        <h1 class="feature-title">Motion Paths</h1>
+        <h2>Generate motion paths from simple shapes to 3D harmonographs, or draw your own.</h2>
+      </div>
+
+      <!-- Right: Interactive Demo -->
+      <div class="demo-panel">
+        <div class="demo-header">
+          <div class="demo-label">
+            <div class="demo-dot"></div>
+            <span class="demo-title">Connected</span>
+          </div>
+        </div>
+
+        <div class="canvas-container">
+          <canvas id="pendulum-canvas"></canvas>
+          <div class="crosshair">
+            <div class="crosshair-h"></div>
+            <div class="crosshair-v"></div>
+            <div class="crosshair-dot"></div>
+          </div>
+        </div>
+
+        <div class="controls-section">
+          <div class="knobs-grid">
+            <div class="knob-row">
+              <div class="knob-container" data-param="freqX" data-min="1" data-max="8" data-value="3" data-target="pendulum">
+                <div class="knob-track"></div>
+                <div class="knob">
+                  <div class="knob-indicator"></div>
+                </div>
+              </div>
+              <input type="text" class="knob-value" id="val-freqX" value="3.0">
+              <span class="knob-label">Freq X</span>
+            </div>
+
+            <div class="knob-row">
+              <div class="knob-container" data-param="freqY" data-min="1" data-max="8" data-value="2" data-target="pendulum">
+                <div class="knob-track"></div>
+                <div class="knob">
+                  <div class="knob-indicator"></div>
+                </div>
+              </div>
+              <input type="text" class="knob-value" id="val-freqY" value="2.0">
+              <span class="knob-label">Freq Y</span>
+            </div>
+
+            <div class="knob-row">
+              <div class="knob-container" data-param="phase" data-min="0" data-max="360" data-value="90" data-target="pendulum">
+                <div class="knob-track"></div>
+                <div class="knob">
+                  <div class="knob-indicator"></div>
+                </div>
+              </div>
+              <input type="text" class="knob-value" id="val-phase" value="90">
+              <span class="knob-label">Phase</span>
+            </div>
+
+            <div class="knob-row">
+              <div class="knob-container" data-param="decay" data-min="0.001" data-max="0.05" data-value="0.008" data-target="pendulum">
+                <div class="knob-track"></div>
+                <div class="knob">
+                  <div class="knob-indicator"></div>
+                </div>
+              </div>
+              <input type="text" class="knob-value" id="val-decay" value="0.008">
+              <span class="knob-label">Decay</span>
+            </div>
+
+            <div class="knob-row">
+              <div class="knob-container" data-param="amp" data-min="20" data-max="150" data-value="120" data-target="pendulum">
+                <div class="knob-track"></div>
+                <div class="knob">
+                  <div class="knob-indicator"></div>
+                </div>
+              </div>
+              <input type="text" class="knob-value" id="val-amp" value="120">
+              <span class="knob-label">Amplitude</span>
+            </div>
+          </div>
+
+          <div class="buttons-row">
+            <button class="btn secondary" id="pendulum-start">Start</button>
+            <button class="btn secondary" id="pendulum-pause">Pause</button>
+            <button class="btn outline" id="pendulum-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- Physics Tester Feature Section -->
   <section class="feature-section">
     <div class="feature-layout">
@@ -907,102 +1511,6 @@
       </div>
     </div>
   </section>
-
-  <!-- Motion Paths Feature Section -->
-  <section class="feature-section">
-    <div class="feature-layout">
-      <!-- Left: Title + Marketing Copy -->
-      <div class="marketing-copy">
-        <h1 class="feature-title">Motion Paths</h1>
-        <h2>Generate motion paths from simple shapes to 3D harmonographs, or draw your own.</h2>
-      </div>
-
-      <!-- Right: Interactive Demo -->
-      <div class="demo-panel">
-        <div class="demo-header">
-          <div class="demo-label">
-            <div class="demo-dot"></div>
-            <span class="demo-title">Connected</span>
-          </div>
-        </div>
-
-        <div class="canvas-container">
-          <canvas id="pendulum-canvas"></canvas>
-          <div class="crosshair">
-            <div class="crosshair-h"></div>
-            <div class="crosshair-v"></div>
-            <div class="crosshair-dot"></div>
-          </div>
-        </div>
-
-        <div class="controls-section">
-          <div class="knobs-grid">
-            <div class="knob-row">
-              <div class="knob-container" data-param="freqX" data-min="1" data-max="8" data-value="3" data-target="pendulum">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-freqX" value="3.0">
-              <span class="knob-label">Freq X</span>
-            </div>
-
-            <div class="knob-row">
-              <div class="knob-container" data-param="freqY" data-min="1" data-max="8" data-value="2" data-target="pendulum">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-freqY" value="2.0">
-              <span class="knob-label">Freq Y</span>
-            </div>
-
-            <div class="knob-row">
-              <div class="knob-container" data-param="phase" data-min="0" data-max="360" data-value="90" data-target="pendulum">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-phase" value="90">
-              <span class="knob-label">Phase</span>
-            </div>
-
-            <div class="knob-row">
-              <div class="knob-container" data-param="decay" data-min="0.001" data-max="0.05" data-value="0.008" data-target="pendulum">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-decay" value="0.008">
-              <span class="knob-label">Decay</span>
-            </div>
-
-            <div class="knob-row">
-              <div class="knob-container" data-param="amp" data-min="20" data-max="150" data-value="120" data-target="pendulum">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-amp" value="120">
-              <span class="knob-label">Amplitude</span>
-            </div>
-          </div>
-
-          <div class="buttons-row">
-            <button class="btn secondary" id="pendulum-start">Start</button>
-            <button class="btn secondary" id="pendulum-pause">Pause</button>
-            <button class="btn outline" id="pendulum-reset">Reset</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Typography & Color Feature Section -->
   <section class="feature-section">
     <div class="feature-layout">
@@ -1073,7 +1581,10 @@
     <p class="success-message" id="success-bottom">Thanks! We'll let you know when we launch.</p>
   </section>
 
-  <footer class="footer">Create Responsibly</footer>
+  <footer class="footer">
+    <p>Create Responsibly</p>
+    <p class="footer-credit">MotionAmigo is a plugin by <a href="https://miguelrodrick.com" target="_blank">miguelrodrick.com</a></p>
+  </footer>
 
   <script>
     // Email signup
@@ -1094,6 +1605,186 @@
         document.getElementById('success-bottom').style.display = 'block';
       });
     });
+
+    // ==================== WORKFLOW ANIMATION ====================
+    (function() {
+      const dropdownBtn = document.getElementById('dropdown-btn');
+      const dropdownMenu = document.getElementById('dropdown-menu');
+      const itemTransforms = document.getElementById('item-transforms');
+      const itemPrompt = document.getElementById('item-prompt');
+      const itemColor = document.getElementById('item-color');
+      const workflowComponent = document.getElementById('workflow-component');
+      const workflowPrompt = document.getElementById('workflow-prompt');
+      const workflowColor = document.getElementById('workflow-color');
+      const typedText = document.getElementById('typed-text');
+      
+      // Component elements
+      const btnIn = document.getElementById('btn-in');
+      const arrowUp = document.getElementById('arrow-up');
+      const inputDistance = document.getElementById('input-distance');
+      const inputFrames = document.getElementById('input-frames');
+      const addQualifier = document.getElementById('add-qualifier');
+      const qualBounce = document.getElementById('qual-bounce');
+      const qualAnticipation = document.getElementById('qual-anticipation');
+      
+      // Color swatches
+      const swatch1 = document.getElementById('swatch-1');
+      const swatch2 = document.getElementById('swatch-2');
+      const swatch3 = document.getElementById('swatch-3');
+      const swatch4 = document.getElementById('swatch-4');
+      
+      const promptText = "create a row of 50 circles";
+      let animationTimeout;
+      
+      function resetAnimation() {
+        dropdownBtn.classList.remove('active');
+        dropdownMenu.classList.remove('open');
+        itemTransforms.classList.remove('hover', 'selected');
+        itemPrompt.classList.remove('hover', 'selected');
+        itemColor.classList.remove('hover', 'selected');
+        workflowComponent.classList.remove('visible');
+        workflowPrompt.classList.remove('visible');
+        workflowColor.classList.remove('visible');
+        typedText.textContent = '';
+        
+        // Reset component state
+        btnIn.classList.remove('active');
+        arrowUp.classList.remove('active');
+        inputDistance.value = '';
+        inputFrames.value = '';
+        addQualifier.classList.remove('active');
+        qualBounce.classList.remove('visible');
+        qualAnticipation.classList.remove('visible');
+        
+        // Reset swatches
+        swatch1.classList.remove('visible');
+        swatch2.classList.remove('visible');
+        swatch3.classList.remove('visible');
+        swatch4.classList.remove('visible');
+      }
+      
+      function typeText(text, index, callback) {
+        if (index < text.length) {
+          typedText.textContent += text.charAt(index);
+          animationTimeout = setTimeout(() => typeText(text, index + 1, callback), 53);
+        } else if (callback) {
+          callback();
+        }
+      }
+      
+      function delay(ms) {
+        return new Promise(resolve => {
+          animationTimeout = setTimeout(resolve, ms);
+        });
+      }
+      
+      async function runAnimation() {
+        resetAnimation();
+        
+        // === PHASE 1: Add Text Prompt ===
+        await delay(900);
+        dropdownBtn.classList.add('active');
+        dropdownMenu.classList.add('open');
+        
+        await delay(600);
+        itemPrompt.classList.add('hover');
+        
+        await delay(450);
+        itemPrompt.classList.remove('hover');
+        itemPrompt.classList.add('selected');
+        
+        await delay(375);
+        dropdownMenu.classList.remove('open');
+        dropdownBtn.classList.remove('active');
+        workflowPrompt.classList.add('visible');
+        
+        // Type the prompt
+        await delay(450);
+        await new Promise(resolve => typeText(promptText, 0, resolve));
+        
+        // === PHASE 2: Add Basic Transforms ===
+        await delay(750);
+        dropdownBtn.classList.add('active');
+        dropdownMenu.classList.add('open');
+        
+        await delay(600);
+        itemTransforms.classList.add('hover');
+        
+        await delay(450);
+        itemTransforms.classList.remove('hover');
+        itemTransforms.classList.add('selected');
+        
+        await delay(375);
+        dropdownMenu.classList.remove('open');
+        dropdownBtn.classList.remove('active');
+        workflowComponent.classList.add('visible');
+        
+        // Fill in transforms
+        await delay(450);
+        btnIn.classList.add('active');
+        await delay(300);
+        arrowUp.classList.add('active');
+        await delay(300);
+        inputDistance.value = '100';
+        await delay(225);
+        inputFrames.value = '24';
+        
+        // Click + to add qualifiers
+        await delay(600);
+        addQualifier.classList.add('active');
+        await delay(375);
+        qualBounce.classList.add('visible');
+        await delay(450);
+        qualAnticipation.classList.add('visible');
+        await delay(300);
+        addQualifier.classList.remove('active');
+        
+        // === PHASE 3: Add Color ===
+        await delay(750);
+        dropdownBtn.classList.add('active');
+        dropdownMenu.classList.add('open');
+        
+        await delay(600);
+        itemColor.classList.add('hover');
+        
+        await delay(450);
+        itemColor.classList.remove('hover');
+        itemColor.classList.add('selected');
+        
+        await delay(375);
+        dropdownMenu.classList.remove('open');
+        dropdownBtn.classList.remove('active');
+        workflowColor.classList.add('visible');
+        
+        // Show swatches one by one
+        await delay(300);
+        swatch1.classList.add('visible');
+        await delay(250);
+        swatch2.classList.add('visible');
+        await delay(250);
+        swatch3.classList.add('visible');
+        await delay(250);
+        swatch4.classList.add('visible');
+        
+        // Wait then restart
+        await delay(4500);
+        runAnimation();
+      }
+      
+      // Start animation when element is in view
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            runAnimation();
+          } else {
+            clearTimeout(animationTimeout);
+            resetAnimation();
+          }
+        });
+      }, { threshold: 0.3 });
+      
+      observer.observe(document.getElementById('workflow-demo'));
+    })();
 
     // Physics
     const state = { gravity: 24.2, bounce: 100, friction: 0, mass: 10, airDrag: 0, running: true, paused: false, time: 0 };
