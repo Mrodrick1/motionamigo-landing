@@ -1272,7 +1272,7 @@
             <div class="workflow-dropdown-item" id="item-prompt">Instructions</div>
             <div class="workflow-dropdown-item" id="item-transforms">Basic Transforms</div>
             <div class="workflow-dropdown-item" id="item-color">Color</div>
-            <div class="workflow-dropdown-item">Motion Path</div>
+            <div class="workflow-dropdown-item">Motion Paths</div>
             <div class="workflow-dropdown-item">Typography</div>
           </div>
         </div>
@@ -1455,6 +1455,8 @@
             <div><span class="label">Gravity</span><span class="value" id="stat-gravity">24.2</span></div>
             <div><span class="label">Bounce</span><span class="value" id="stat-bounce">100%</span></div>
             <div><span class="label">Friction</span><span class="value" id="stat-friction">0%</span></div>
+            <div><span class="label">Mass</span><span class="value" id="stat-mass">10.0</span></div>
+            <div><span class="label">Air Drag</span><span class="value" id="stat-airDrag">0.0</span></div>
             <div><span class="label">Time</span><span class="value" id="stat-time">0.00s</span></div>
           </div>
           <div class="gravity-arrow">↓</div>
@@ -1958,6 +1960,8 @@
       document.getElementById('stat-gravity').textContent = state.gravity.toFixed(1);
       document.getElementById('stat-bounce').textContent = state.bounce.toFixed(0) + '%';
       document.getElementById('stat-friction').textContent = state.friction.toFixed(0) + '%';
+      document.getElementById('stat-mass').textContent = state.mass.toFixed(1);
+      document.getElementById('stat-airDrag').textContent = state.airDrag.toFixed(1);
       document.getElementById('stat-time').textContent = state.time.toFixed(2) + 's';
     }
 
