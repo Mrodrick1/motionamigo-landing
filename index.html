@@ -67,12 +67,18 @@
       letter-spacing: 0.02em;
     }
 
-    .hero .tagline {
-      color: #fff;
-      font-size: 1.1rem;
-      margin-bottom: 2.5rem;
-      line-height: 1.6;
-    }
+   .hero .tagline {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+@media (min-width: 600px) {
+  .hero .tagline {
+    white-space: nowrap;
+  }
+}
 
     .hero form {
       display: flex;
