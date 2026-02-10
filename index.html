@@ -228,6 +228,10 @@
         font-size: 32px;
       }
 
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+
       .hero h1 {
         font-size: 2.2rem;
       }
@@ -1102,6 +1106,24 @@
       }
     }
 
+    /* Video Grid */
+    .video-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .video-grid > div {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
     /* Static UI Panels (Typography, Color) */
     .static-panel {
       background: var(--bg-medium);
@@ -1595,6 +1617,22 @@
             <div class="color-add-swatch">+</div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Section -->
+  <section class="feature-section" style="padding-bottom: 60px;">
+    <div class="section-header" style="margin-bottom: 40px;">
+      <h2 class="section-title">See It In Action</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="video-grid">
+      <div>
+        <iframe src="https://player.vimeo.com/video/1163367857?badge=0&autopause=0&player_id=0&app_id=58479" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen></iframe>
+      </div>
+      <div>
+        <iframe src="https://player.vimeo.com/video/1158900913?badge=0&autopause=0&player_id=0&app_id=58479" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen></iframe>
       </div>
     </div>
   </section>
