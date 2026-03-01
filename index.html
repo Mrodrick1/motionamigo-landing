@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MotionAmigo - Coming Soon</title>
+  <title>MotionAmigo - AI for After Effects</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -139,9 +139,21 @@
     /* ==================== FEATURE SECTION ==================== */
     .feature-section {
       padding: 60px 40px 100px;
+      max-width: 100%;
+    }
+
+    .feature-section > .feature-layout,
+    .feature-section > .video-grid {
       max-width: 1100px;
       margin: 0 auto;
     }
+
+    /* Slightly different dark backgrounds per use case */
+    .feature-section:nth-of-type(2) { background-color: #0c0c0e; } /* Build with Context */
+    .feature-section:nth-of-type(3) { background-color: #0a0b0f; } /* Motion Paths */
+    .feature-section:nth-of-type(4) { background-color: #0d0c0a; } /* Physics Tester */
+    .feature-section:nth-of-type(5) { background-color: #0b0a0d; } /* Typography & Color */
+    .feature-section:nth-of-type(6) { background-color: #0a0c0b; } /* Videos */
 
     .section-header {
       text-align: center;
@@ -1288,6 +1300,12 @@
     <div class="hero-content">
       <h1>MotionAmigo</h1>
       <p class="tagline">The first AI engine for After Effects that speaks motion design.</p>
+      <form id="signup-form-hero">
+        <input type="email" name="email" id="email-hero" placeholder="Enter your email" required>
+        <button type="submit">Start Free Trial</button>
+      </form>
+      <p class="success-message" id="success-hero" style="display:none; color:#6E55FF; margin-top:12px; font-size:15px;">Check your email for your trial key!</p>
+      <p class="error-message" id="error-hero" style="display:none; color:#ff4444; margin-top:12px; font-size:14px;"></p>
     </div>
   </section>
 
@@ -1662,10 +1680,11 @@
     <p class="cta-more">Create presets and expressions, and run consistency checks across your entire project.<br>Plus much more inside MotionAmigo.</p>
     <p class="cta-tagline">Dial it in. Build faster with AI.</p>
     <form id="signup-form-bottom" class="cta-form">
-      <input type="email" name="email" id="email-bottom" placeholder="Early access soon" required>
-      <button type="submit">Join the waitlist</button>
+      <input type="email" name="email" id="email-bottom" placeholder="Enter your email" required>
+      <button type="submit">Start Free Trial</button>
     </form>
-    <p class="success-message" id="success-bottom">Thanks! We'll let you know when we launch.</p>
+    <p class="success-message" id="success-bottom">Check your email for your trial key!</p>
+    <p class="error-message" id="error-bottom" style="display:none; color:#ff4444; margin-top:8px; font-size:14px;"></p>
   </section>
 
   <footer class="footer">
@@ -1674,24 +1693,47 @@
   </footer>
 
   <script>
-    // Email signup
-    document.getElementById('signup-form-bottom').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = document.getElementById('email-bottom').value;
-      const button = this.querySelector('button');
-      button.textContent = '...';
-      button.disabled = true;
+    // Trial signup — shared handler for hero and bottom forms
+    const TRIAL_API = 'https://motionamigo-license.miguelrodrick.workers.dev/api/trial/signup';
 
-      fetch('https://script.google.com/macros/s/AKfycbwxdUPIomxua0tHohkt73g4wcO2h_vcLjDE-LuANbtufXPT-QE8OSKWXJPpfvZKOLI/exec', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
-      }).then(() => {
-        document.getElementById('signup-form-bottom').style.display = 'none';
-        document.getElementById('success-bottom').style.display = 'block';
+    function handleTrialSignup(formId, emailId, successId, errorId) {
+      document.getElementById(formId).addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById(emailId).value;
+        const button = this.querySelector('button');
+        const errorEl = document.getElementById(errorId);
+        button.textContent = '...';
+        button.disabled = true;
+        errorEl.style.display = 'none';
+
+        fetch(TRIAL_API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            document.getElementById(formId).style.display = 'none';
+            document.getElementById(successId).style.display = 'block';
+          } else {
+            errorEl.textContent = data.error || 'Something went wrong. Please try again.';
+            errorEl.style.display = 'block';
+            button.textContent = 'Start Free Trial';
+            button.disabled = false;
+          }
+        })
+        .catch(() => {
+          errorEl.textContent = 'Network error. Please try again.';
+          errorEl.style.display = 'block';
+          button.textContent = 'Start Free Trial';
+          button.disabled = false;
+        });
       });
-    });
+    }
+
+    handleTrialSignup('signup-form-hero', 'email-hero', 'success-hero', 'error-hero');
+    handleTrialSignup('signup-form-bottom', 'email-bottom', 'success-bottom', 'error-bottom');
 
     // ==================== WORKFLOW ANIMATION ====================
     (function() {
