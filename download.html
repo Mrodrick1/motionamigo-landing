@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MotionAmigo — Download</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Big John Pro';
+      src: url('BigJohnPRO-Bold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+    }
+    :root {
+      --bg-darkest: #0a0a0a;
+      --bg-dark: #141414;
+      --bg-medium: #1a1a1f;
+      --bg-light: #252530;
+      --accent-primary: #3b7dd8;
+      --accent-light: #6aadff;
+      --accent-dark: #1a3a5c;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0b0;
+      --text-muted: #707080;
+      --border-color: #333;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-darkest);
+      color: var(--text-secondary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      text-align: center;
+      padding: 40px 24px;
+      max-width: 560px;
+    }
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 40px;
+    }
+    .nav a {
+      font-family: 'Big John Pro', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    h1 {
+      font-family: 'Big John Pro', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+    .download-card {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px 32px;
+      margin-bottom: 32px;
+    }
+    .platform {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .version {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .download-btn {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid var(--accent-primary);
+      color: #fff;
+      text-decoration: none;
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 600;
+      transition: opacity 0.2s;
+      margin-bottom: 16px;
+    }
+    .download-btn:hover { opacity: 0.85; }
+    .file-size {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .steps {
+      text-align: left;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+    .steps h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+    .steps ol {
+      padding-left: 20px;
+    }
+    .steps ol li {
+      font-size: 15px;
+      color: var(--text-secondary);
+      padding: 6px 0;
+      line-height: 1.6;
+    }
+
+    .requirements {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .buy-link {
+      margin-top: 24px;
+      font-size: 15px;
+    }
+    .buy-link a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .buy-link a:hover { text-decoration: underline; }
+
+    footer {
+      padding: 40px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    footer a { color: var(--text-secondary); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="/">MotionAmigo</a></nav>
+
+  <div class="container">
+    <h1>Download MotionAmigo</h1>
+    <p class="subtitle">Includes a 30-day free trial.</p>
+
+    <div class="download-card">
+      <p class="platform">macOS</p>
+      <p class="version">After Effects 2025 and later</p>
+      <a href="#" class="download-btn" id="downloadBtn">Download Installer (.dmg)</a>
+      <p class="file-size">Requires macOS 12+</p>
+    </div>
+
+    <p class="buy-link">
+      Already have a trial? <a href="pricing.html">Purchase a full license</a>
+    </p>
+  </div>
+
+  <footer>
+    <a href="/">MotionAmigo</a> &middot; <a href="mailto:support@motionamigo.com">Support</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MotionAmigo — Purchase Complete</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Big John Pro';
+      src: url('BigJohnPRO-Bold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+    }
+    :root {
+      --bg-darkest: #0a0a0a;
+      --bg-dark: #141414;
+      --bg-medium: #1a1a1f;
+      --bg-light: #252530;
+      --accent-primary: #3b7dd8;
+      --accent-light: #6aadff;
+      --accent-dark: #1a3a5c;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0b0;
+      --text-muted: #707080;
+      --border-color: #333;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-darkest);
+      color: var(--text-secondary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      text-align: center;
+      padding: 40px 24px;
+      max-width: 520px;
+    }
+    h1 {
+      font-family: 'Big John Pro', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+    }
+    .key-label {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .key-box {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 12px;
+    }
+    .key-box code {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--text-primary);
+      user-select: all;
+    }
+    .copy-btn {
+      background: var(--bg-medium);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 20px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 32px;
+    }
+    .copy-btn:hover { background: var(--bg-light); }
+
+    .steps {
+      text-align: left;
+      margin-bottom: 32px;
+    }
+    .steps h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+    .steps ol {
+      padding-left: 20px;
+    }
+    .steps ol li {
+      font-size: 15px;
+      color: var(--text-secondary);
+      padding: 6px 0;
+      line-height: 1.5;
+    }
+
+    .download-btn {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid var(--accent-primary);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .download-btn:hover { opacity: 0.85; }
+
+    .loading, .error {
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .error { color: #ff4444; }
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border-color);
+      border-top-color: var(--accent-primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .email-note {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 24px;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      padding: 20px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    footer a { color: var(--text-secondary); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <!-- Loading state -->
+  <div class="loading" id="loadingState">
+    <div class="spinner"></div>
+    <p style="color: var(--text-secondary);">Retrieving your license key...</p>
+  </div>
+
+  <!-- Success state -->
+  <div class="container" id="successState" style="display:none;">
+    <h1>Thank you!</h1>
+    <p class="subtitle">Your MotionAmigo license is ready.</p>
+
+    <p class="key-label">Your license key:</p>
+    <div class="key-box">
+      <code id="licenseKey"></code>
+    </div>
+    <button class="copy-btn" id="copyBtn" onclick="copyKey()">Copy to clipboard</button>
+
+    <div class="steps">
+      <h3>To activate:</h3>
+      <ol>
+        <li>Download and install MotionAmigo (if you haven't already)</li>
+        <li>Open After Effects &rarr; Window &rarr; Extensions &rarr; MotionAmigo</li>
+        <li>Enter your license key and click Activate</li>
+      </ol>
+    </div>
+
+    <a href="download.html" class="download-btn">Download MotionAmigo</a>
+
+    <p class="email-note">We've also sent this key to <strong id="emailAddr"></strong></p>
+  </div>
+
+  <!-- Error state -->
+  <div class="container" id="errorState" style="display:none;">
+    <h1>Almost there</h1>
+    <p class="subtitle" id="errorMsg">Your license key is being generated. Please check your email in a few minutes.</p>
+    <a href="download.html" class="download-btn" style="margin-top:24px;">Download MotionAmigo</a>
+  </div>
+
+  <footer>
+    <a href="/">MotionAmigo</a> &middot; <a href="mailto:support@motionamigo.com">Support</a>
+  </footer>
+
+  <script>
+    var API_BASE = 'https://motionamigo-license.rodrickmiguel.workers.dev';
+
+    function getSessionId() {
+      var params = new URLSearchParams(window.location.search);
+      return params.get('session_id');
+    }
+
+    function copyKey() {
+      var key = document.getElementById('licenseKey').textContent;
+      navigator.clipboard.writeText(key).then(function() {
+        document.getElementById('copyBtn').textContent = 'Copied!';
+        setTimeout(function() {
+          document.getElementById('copyBtn').textContent = 'Copy to clipboard';
+        }, 2000);
+      });
+    }
+
+    function fetchLicense() {
+      var sessionId = getSessionId();
+      if (!sessionId) {
+        showError('No session found. If you just purchased, check your email for your license key.');
+        return;
+      }
+
+      fetch(API_BASE + '/api/success?session_id=' + encodeURIComponent(sessionId))
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data.license_key) {
+            document.getElementById('licenseKey').textContent = data.license_key;
+            document.getElementById('emailAddr').textContent = data.email || 'your email';
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('successState').style.display = 'block';
+          } else {
+            showError(data.error || 'Your license key is being generated. Check your email in a few minutes, or contact support.');
+          }
+        })
+        .catch(function() {
+          showError('Could not reach the license server. Check your email for your license key, or contact support.');
+        });
+    }
+
+    function showError(msg) {
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('errorMsg').textContent = msg;
+      document.getElementById('errorState').style.display = 'block';
+    }
+
+    fetchLicense();
+  </script>
+</body>
+</html>

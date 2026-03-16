@@ -129,6 +129,95 @@
       transform: scale(0.98);
     }
 
+    /* Hero pricing cards */
+    .hero-cards {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .hero-card {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 28px 24px;
+      width: 240px;
+      text-align: center;
+    }
+    .hero-card-featured {
+      border-color: #3b7dd8;
+    }
+    .hero-card-badge {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6aadff;
+      margin-bottom: 10px;
+    }
+    .hero-card-title {
+      font-family: 'Big John Pro', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .hero-card-price {
+      font-family: 'Poppins', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    .hero-card-price span {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .hero-card-note {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .hero-card-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity 0.2s;
+      font-family: inherit;
+    }
+    .hero-card-btn:hover { opacity: 0.85; }
+    .hero-card-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .hero-card-btn-primary {
+      background: transparent;
+      color: #6aadff;
+      border: 1px solid #3b7dd8;
+    }
+    .hero-card-btn-secondary {
+      background: var(--bg-medium);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+    }
+    .hero-card-error {
+      color: #ff4444;
+      font-size: 12px;
+      margin-top: 8px;
+      display: none;
+    }
+
+    @media (max-width: 540px) {
+      .hero-cards { flex-direction: column; align-items: center; }
+      .hero-card { width: 100%; max-width: 280px; }
+    }
+
     .success-message {
       display: none;
       color: #4ade80;
@@ -1301,12 +1390,23 @@
     <div class="hero-content">
       <h1>MotionAmigo</h1>
       <p class="tagline">The first AI engine for After Effects that speaks motion design.</p>
-      <form id="signup-form-hero">
-        <input type="email" name="email" id="email-hero" placeholder="Enter your email" required>
-        <button type="submit">Start Free Trial</button>
-      </form>
-      <p class="success-message" id="success-hero" style="display:none; color:#6E55FF; margin-top:12px; font-size:15px;">Check your email for your trial key!</p>
-      <p class="error-message" id="error-hero" style="display:none; color:#ff4444; margin-top:12px; font-size:14px;"></p>
+      <div class="hero-cards">
+        <div class="hero-card">
+          <div class="hero-card-badge">Try it free</div>
+          <div class="hero-card-title">Trial</div>
+          <div class="hero-card-price">$0</div>
+          <div class="hero-card-note">30 days, no credit card</div>
+          <a href="download.html" class="hero-card-btn hero-card-btn-secondary">Download Free Trial</a>
+        </div>
+        <div class="hero-card hero-card-featured">
+          <div class="hero-card-badge">Full License</div>
+          <div class="hero-card-title">MotionAmigo</div>
+          <div class="hero-card-price">$99 <span>USD</span></div>
+          <div class="hero-card-note">One-time payment</div>
+          <button class="hero-card-btn hero-card-btn-primary" id="heroBuyBtn" onclick="startCheckout()">Buy Now</button>
+          <p class="hero-card-error" id="heroCheckoutError"></p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1680,12 +1780,10 @@
   <section class="cta-section">
     <p class="cta-more">Create presets and expressions, and run consistency checks across your entire project.<br>Plus much more inside MotionAmigo.</p>
     <p class="cta-tagline">Dial it in. Build faster with AI.</p>
-    <form id="signup-form-bottom" class="cta-form">
-      <input type="email" name="email" id="email-bottom" placeholder="Enter your email" required>
-      <button type="submit">Start Free Trial</button>
-    </form>
-    <p class="success-message" id="success-bottom">Check your email for your trial key!</p>
-    <p class="error-message" id="error-bottom" style="display:none; color:#ff4444; margin-top:8px; font-size:14px;"></p>
+    <div class="hero-cards">
+      <a href="download.html" class="hero-card-btn hero-card-btn-secondary" style="display:inline-block; width:auto; padding:14px 28px;">Download Free Trial</a>
+      <button class="hero-card-btn hero-card-btn-primary" style="display:inline-block; width:auto; padding:14px 28px;" onclick="startCheckout()">Buy Now — $99</button>
+    </div>
   </section>
 
   <footer class="footer">
@@ -1694,47 +1792,36 @@
   </footer>
 
   <script>
-    // Trial signup — shared handler for hero and bottom forms
-    const TRIAL_API = 'https://motionamigo-license.miguelrodrick.workers.dev/api/trial/signup';
+    // Stripe checkout
+    const API_BASE = 'https://motionamigo-license.rodrickmiguel.workers.dev';
 
-    function handleTrialSignup(formId, emailId, successId, errorId) {
-      document.getElementById(formId).addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById(emailId).value;
-        const button = this.querySelector('button');
-        const errorEl = document.getElementById(errorId);
-        button.textContent = '...';
-        button.disabled = true;
-        errorEl.style.display = 'none';
+    function startCheckout() {
+      const btns = document.querySelectorAll('[onclick="startCheckout()"]');
+      btns.forEach(b => { b.disabled = true; b.textContent = 'Redirecting...'; });
+      const errEl = document.getElementById('heroCheckoutError');
+      if (errEl) errEl.style.display = 'none';
 
-        fetch(TRIAL_API, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email })
-        })
-        .then(r => r.json())
-        .then(data => {
-          if (data.success) {
-            document.getElementById(formId).style.display = 'none';
-            document.getElementById(successId).style.display = 'block';
-          } else {
-            errorEl.textContent = data.error || 'Something went wrong. Please try again.';
-            errorEl.style.display = 'block';
-            button.textContent = 'Start Free Trial';
-            button.disabled = false;
-          }
-        })
-        .catch(() => {
-          errorEl.textContent = 'Network error. Please try again.';
-          errorEl.style.display = 'block';
-          button.textContent = 'Start Free Trial';
-          button.disabled = false;
-        });
+      fetch(API_BASE + '/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({})
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          throw new Error(data.error || 'Failed to start checkout');
+        }
+      })
+      .catch(err => {
+        btns.forEach(b => { b.disabled = false; b.textContent = 'Buy Now'; });
+        if (errEl) {
+          errEl.textContent = err.message || 'Something went wrong. Please try again.';
+          errEl.style.display = 'block';
+        }
       });
     }
-
-    handleTrialSignup('signup-form-hero', 'email-hero', 'success-hero', 'error-hero');
-    handleTrialSignup('signup-form-bottom', 'email-bottom', 'success-bottom', 'error-bottom');
 
     // ==================== WORKFLOW ANIMATION ====================
     (function() {

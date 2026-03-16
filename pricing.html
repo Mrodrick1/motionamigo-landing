@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MotionAmigo — Pricing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Big John Pro';
+      src: url('BigJohnPRO-Bold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+    }
+    :root {
+      --bg-darkest: #0a0a0a;
+      --bg-dark: #141414;
+      --bg-medium: #1a1a1f;
+      --bg-light: #252530;
+      --accent-primary: #3b7dd8;
+      --accent-light: #6aadff;
+      --accent-dark: #1a3a5c;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0b0;
+      --text-muted: #707080;
+      --border-color: #333;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-darkest);
+      color: var(--text-secondary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .nav {
+      width: 100%;
+      padding: 20px 40px;
+    }
+    .nav a {
+      font-family: 'Big John Pro', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .hero {
+      text-align: center;
+      padding: 60px 24px 40px;
+      max-width: 600px;
+    }
+    .hero h1 {
+      font-family: 'Big John Pro', sans-serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .cards {
+      display: flex;
+      gap: 24px;
+      padding: 0 24px 80px;
+      max-width: 800px;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .card {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px 32px;
+      flex: 1;
+      min-width: 280px;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+    }
+    .card.featured {
+      border-color: var(--accent-primary);
+      box-shadow: none;
+    }
+    .card-badge {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-light);
+      margin-bottom: 16px;
+    }
+    .card h2 {
+      font-family: 'Big John Pro', 'Poppins', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .card .price {
+      font-family: 'Poppins', sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .card .price span {
+      font-size: 18px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .card .price-note {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .card ul {
+      list-style: none;
+      margin-bottom: 32px;
+      flex-grow: 1;
+    }
+    .card ul li {
+      font-size: 15px;
+      color: var(--text-secondary);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--bg-medium);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card ul li::before {
+      content: '\2713';
+      color: var(--accent-light);
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary {
+      background: transparent;
+      color: var(--accent-light);
+      border: 1px solid var(--accent-primary);
+    }
+    .btn-secondary {
+      background: var(--bg-medium);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+    }
+    .error-msg {
+      color: #ff4444;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 12px;
+      display: none;
+    }
+    footer {
+      padding: 40px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    footer a { color: var(--text-secondary); text-decoration: none; }
+    footer a:hover { opacity: 0.7; }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 32px; }
+      .hero { padding: 40px 20px 24px; }
+      .cards { padding: 0 16px 60px; }
+      .card { padding: 32px 24px; }
+      .card .price { font-size: 36px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="/">MotionAmigo</a></nav>
+
+  <div class="hero">
+    <h1>Get MotionAmigo</h1>
+    <p>AI-powered motion design for After Effects. Start with a free trial or go all-in.</p>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-badge">Try it free</div>
+      <h2>Trial</h2>
+      <div class="price">$0</div>
+      <div class="price-note">30 days, no credit card</div>
+      <ul>
+        <li>Full plugin access</li>
+        <li>All AI animation tools</li>
+        <li>30-day free trial</li>
+      </ul>
+      <a href="download.html" class="btn btn-secondary">Download Free Trial</a>
+    </div>
+
+    <div class="card featured">
+      <div class="card-badge">Full License</div>
+      <h2>MotionAmigo</h2>
+      <div class="price">$99 <span>USD</span></div>
+      <div class="price-note">One-time payment</div>
+      <ul>
+        <li>Unlimited use, forever</li>
+        <li>All AI animation tools</li>
+        <li>Future updates included</li>
+        <li>Move license between machines</li>
+      </ul>
+      <button class="btn btn-primary" id="buyBtn" onclick="startCheckout()">Buy Now</button>
+      <p class="error-msg" id="checkoutError"></p>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 MotionAmigo &middot; <a href="mailto:support@motionamigo.com">Contact Support</a></p>
+    <p style="margin-top:8px">A plugin by <a href="https://miguelrodrick.com" target="_blank">miguelrodrick.com</a></p>
+  </footer>
+
+  <script>
+    var API_BASE = 'https://motionamigo-license.rodrickmiguel.workers.dev';
+
+    function startCheckout() {
+      var btn = document.getElementById('buyBtn');
+      var errEl = document.getElementById('checkoutError');
+      btn.disabled = true;
+      btn.textContent = 'Redirecting...';
+      errEl.style.display = 'none';
+
+      fetch(API_BASE + '/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({})
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          throw new Error(data.error || 'Failed to start checkout');
+        }
+      })
+      .catch(function(err) {
+        btn.disabled = false;
+        btn.textContent = 'Buy Now';
+        errEl.textContent = err.message || 'Something went wrong. Please try again.';
+        errEl.style.display = 'block';
+      });
+    }
+  </script>
+</body>
+</html>
