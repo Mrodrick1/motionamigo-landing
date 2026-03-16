@@ -110,6 +110,72 @@
       color: var(--text-muted);
     }
 
+    /* Email gate */
+    .email-gate {
+      margin-bottom: 24px;
+    }
+    .email-gate p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .email-form {
+      display: flex;
+      gap: 8px;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .email-input {
+      flex: 1;
+      padding: 12px 16px;
+      background: var(--bg-medium);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .email-input:focus {
+      border-color: var(--accent-primary);
+    }
+    .email-input::placeholder {
+      color: var(--text-muted);
+    }
+    .email-submit {
+      padding: 12px 24px;
+      background: var(--accent-primary);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    .email-submit:hover { opacity: 0.85; }
+    .email-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .email-error {
+      font-size: 13px;
+      color: #e55;
+      margin-top: 8px;
+      display: none;
+    }
+    .email-error.visible { display: block; }
+
+    /* Download section hidden until email submitted */
+    .download-section { display: none; }
+    .download-section.visible { display: block; }
+
+    .success-msg {
+      font-size: 14px;
+      color: #5c9;
+      margin-bottom: 16px;
+    }
+
     .steps {
       text-align: left;
       background: var(--bg-dark);
@@ -169,19 +235,110 @@
     <p class="subtitle">Includes a 30-day free trial.</p>
 
     <div class="download-card">
-      <p class="platform">macOS</p>
-      <p class="version">After Effects 2025 and later</p>
-      <a href="https://pub-02e0f08160474e3091173e8761c340e4.r2.dev/MotionAmigo-Installer.dmg" class="download-btn" id="downloadBtn">Download Installer (.dmg)</a>
-      <p class="file-size">Requires macOS 12+</p>
+      <!-- Email gate -->
+      <div class="email-gate" id="emailGate">
+        <p>Enter your email to download MotionAmigo</p>
+        <div class="email-form">
+          <input type="email" class="email-input" id="emailInput" placeholder="your@email.com" autocomplete="email">
+          <button class="email-submit" id="emailSubmit">Download</button>
+        </div>
+        <p class="email-error" id="emailError"></p>
+      </div>
+
+      <!-- Download link (shown after email) -->
+      <div class="download-section" id="downloadSection">
+        <p class="success-msg" id="successMsg"></p>
+        <a href="https://pub-02e0f08160474e3091173e8761c340e4.r2.dev/MotionAmigo-Installer.dmg" class="download-btn" id="downloadBtn">Download Installer (.dmg)</a>
+        <p class="file-size">Requires macOS 12+</p>
+      </div>
     </div>
 
     <p class="buy-link">
-      Already have a trial? <a href="pricing.html">Purchase a full license</a>
+      Already have a license? <a href="pricing.html">Enter it in the panel</a>
     </p>
   </div>
 
   <footer>
     <a href="/">MotionAmigo</a> &middot; <a href="mailto:motionamigo@gmail.com">Support</a>
   </footer>
+
+  <script>
+    (function() {
+      var API = 'https://motionamigo-license.rodrickmiguel.workers.dev';
+      var emailInput = document.getElementById('emailInput');
+      var emailSubmit = document.getElementById('emailSubmit');
+      var emailError = document.getElementById('emailError');
+      var emailGate = document.getElementById('emailGate');
+      var downloadSection = document.getElementById('downloadSection');
+      var successMsg = document.getElementById('successMsg');
+
+      function showError(msg) {
+        emailError.textContent = msg;
+        emailError.classList.add('visible');
+      }
+      function hideError() {
+        emailError.classList.remove('visible');
+      }
+
+      emailSubmit.addEventListener('click', function() {
+        hideError();
+        var email = (emailInput.value || '').trim().toLowerCase();
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          showError('Please enter a valid email address.');
+          return;
+        }
+
+        emailSubmit.disabled = true;
+        emailSubmit.textContent = 'Sending...';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', API + '/api/trial/signup', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.timeout = 15000;
+
+        xhr.onload = function() {
+          var data;
+          try { data = JSON.parse(xhr.responseText); } catch(e) { data = {}; }
+
+          if (xhr.status >= 200 && xhr.status < 300 && data.success) {
+            // Success — show download link
+            emailGate.style.display = 'none';
+            downloadSection.classList.add('visible');
+            successMsg.textContent = 'Your trial key has been sent to ' + email;
+          } else {
+            emailSubmit.disabled = false;
+            emailSubmit.textContent = 'Download';
+            var msg = data.error || data.message || 'Something went wrong. Please try again.';
+            if (msg === 'A trial has already been issued for this email') {
+              // Already signed up — just show the download
+              emailGate.style.display = 'none';
+              downloadSection.classList.add('visible');
+              successMsg.textContent = 'Welcome back! Your download is ready.';
+            } else {
+              showError(msg);
+            }
+          }
+        };
+
+        xhr.onerror = function() {
+          emailSubmit.disabled = false;
+          emailSubmit.textContent = 'Download';
+          showError('Cannot reach server. Please check your internet connection.');
+        };
+
+        xhr.ontimeout = function() {
+          emailSubmit.disabled = false;
+          emailSubmit.textContent = 'Download';
+          showError('Request timed out. Please try again.');
+        };
+
+        xhr.send(JSON.stringify({ email: email }));
+      });
+
+      emailInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') emailSubmit.click();
+      });
+    })();
+  </script>
 </body>
 </html>
