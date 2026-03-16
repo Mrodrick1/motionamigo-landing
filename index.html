@@ -1587,14 +1587,6 @@
           <div class="hero-card-note">30 days, no credit card</div>
           <a href="download.html" class="hero-card-btn hero-card-btn-secondary">Download</a>
         </div>
-        <div class="hero-card hero-card-featured">
-          <div class="hero-card-badge">Full License</div>
-          <div class="hero-card-title">MotionAmigo</div>
-          <div class="hero-card-price">$99 <span>USD</span></div>
-          <div class="hero-card-note">One-time payment</div>
-          <button class="hero-card-btn hero-card-btn-primary" id="heroBuyBtn" onclick="startCheckout()">Buy Now</button>
-          <p class="hero-card-error" id="heroCheckoutError"></p>
-        </div>
       </div>
     </div>
   </section>
@@ -1989,37 +1981,6 @@
   </footer>
 
   <script>
-    // Stripe checkout
-    const API_BASE = 'https://motionamigo-license.rodrickmiguel.workers.dev';
-
-    function startCheckout() {
-      const btns = document.querySelectorAll('[onclick="startCheckout()"]');
-      btns.forEach(b => { b.disabled = true; b.textContent = 'Redirecting...'; });
-      const errEl = document.getElementById('heroCheckoutError');
-      if (errEl) errEl.style.display = 'none';
-
-      fetch(API_BASE + '/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({})
-      })
-      .then(r => r.json())
-      .then(data => {
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          throw new Error(data.error || 'Failed to start checkout');
-        }
-      })
-      .catch(err => {
-        btns.forEach(b => { b.disabled = false; b.textContent = 'Buy Now'; });
-        if (errEl) {
-          errEl.textContent = err.message || 'Something went wrong. Please try again.';
-          errEl.style.display = 'block';
-        }
-      });
-    }
-
     // ==================== WORKFLOW ANIMATION ====================
     (function() {
       const dropdownBtn = document.getElementById('dropdown-btn');
