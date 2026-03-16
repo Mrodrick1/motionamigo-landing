@@ -764,6 +764,151 @@
       51%, 100% { opacity: 0; }
     }
 
+    /* ==================== MOTION PATH PANEL ==================== */
+    .mp-panel {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      padding: 12px;
+    }
+    .mp-canvas-wrap {
+      position: relative;
+      border: 1px solid #597b9f;
+      border-radius: 6px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: transparent;
+    }
+    .mp-canvas-wrap canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+    }
+    .mp-point-count {
+      position: absolute;
+      bottom: 6px;
+      right: 8px;
+      font-size: 10px;
+      color: var(--text-dim, #555);
+      letter-spacing: 0.3px;
+    }
+    .mp-knobs-area {
+      padding: 12px 0 0;
+    }
+    .mp-knobs-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 16px;
+      justify-content: center;
+    }
+    .mp-knob-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .mp-knob {
+      position: relative;
+      width: 54px;
+      height: 54px;
+      cursor: ns-resize;
+      user-select: none;
+    }
+    .mp-knob svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .mp-knob-track-bg {
+      fill: none;
+      stroke: #1a1a20;
+      stroke-width: 3;
+    }
+    .mp-knob-arc {
+      fill: none;
+      stroke: url(#mpKnobGrad);
+      stroke-width: 3;
+      stroke-linecap: round;
+      transition: stroke-dasharray 0.08s ease;
+    }
+    .mp-knob-arc-scale {
+      stroke: #6aadff;
+    }
+    .mp-knob-body {
+      fill: url(#mpKnobBody);
+      transition: fill 0.15s ease;
+    }
+    .mp-knob:hover .mp-knob-body {
+      fill: #222228;
+    }
+    .mp-knob-indicator {
+      stroke: #fff;
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+    .mp-knob-val {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: center;
+      min-width: 36px;
+    }
+    .mp-knob-label {
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .mp-knob-sm {
+      width: 44px;
+      height: 44px;
+    }
+    .mp-knob-scale {
+      width: 68px;
+      height: 68px;
+    }
+    .mp-bottom-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 10px;
+    }
+    .mp-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px 0 4px;
+      flex-wrap: wrap;
+    }
+    .mp-btn-group {
+      display: flex;
+      gap: 0;
+    }
+    .mp-btn {
+      padding: 6px 14px;
+      background: transparent;
+      border: 1px solid #444;
+      color: var(--text-primary);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .mp-btn:first-child { border-radius: 4px 0 0 4px; }
+    .mp-btn:last-child { border-radius: 0 4px 4px 0; }
+    .mp-btn:only-child { border-radius: 4px; }
+    .mp-btn:hover { border-color: var(--text-muted); }
+    .mp-btn-active {
+      background: rgba(255,255,255,0.06);
+      border-color: #597b9f;
+    }
+
     /* ==================== DEMO PANEL ==================== */
     .demo-panel {
       background: transparent;
@@ -1518,86 +1663,190 @@
         <h3>Generate motion paths from simple shapes to 3D harmonographs, or draw your own.</h3>
       </div>
 
-      <!-- Right: Interactive Demo -->
-      <div class="demo-panel">
-        <div class="demo-header">
-          <div class="demo-label">
-            <div class="demo-dot"></div>
-            <span class="demo-title">Connected</span>
-          </div>
-        </div>
+      <!-- Right: Interactive Demo (matches actual panel design) -->
+      <div class="mp-panel">
+        <!-- SVG defs for knob gradients -->
+        <svg style="position:absolute;width:0;height:0;overflow:hidden">
+          <defs>
+            <linearGradient id="mpKnobGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+              <stop offset="0%" stop-color="#1a3a5c"/>
+              <stop offset="50%" stop-color="#3b7dd8"/>
+              <stop offset="100%" stop-color="#6aadff"/>
+            </linearGradient>
+            <radialGradient id="mpKnobBody" cx="30%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#2a2a32"/>
+              <stop offset="100%" stop-color="#141418"/>
+            </radialGradient>
+          </defs>
+        </svg>
 
-        <div class="canvas-container">
+        <div class="mp-canvas-wrap">
           <canvas id="pendulum-canvas"></canvas>
-          <div class="crosshair">
-            <div class="crosshair-h"></div>
-            <div class="crosshair-v"></div>
-            <div class="crosshair-dot"></div>
+          <span class="mp-point-count" id="mp-point-count">0 points</span>
+        </div>
+
+        <div class="mp-knobs-area">
+          <div class="mp-knobs-grid">
+            <div class="mp-knob-item">
+              <div class="mp-knob" data-param="freqX" data-min="1" data-max="8" data-value="3">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="mp-val-freqX">3</span>
+              <span class="mp-knob-label">Freq X</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob" data-param="freqY" data-min="1" data-max="8" data-value="2">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="mp-val-freqY">2</span>
+              <span class="mp-knob-label">Freq Y</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob" data-param="phase" data-min="0" data-max="360" data-value="90">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="mp-val-phase">90</span>
+              <span class="mp-knob-label">Phase X&deg;</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob" data-param="phaseY" data-min="0" data-max="360" data-value="0">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="mp-val-phaseY">0</span>
+              <span class="mp-knob-label">Phase Y&deg;</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob" data-param="decay" data-min="0.001" data-max="0.05" data-value="0.008">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="mp-val-decay">0.008</span>
+              <span class="mp-knob-label">Decay</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob" data-param="amp" data-min="20" data-max="200" data-value="200">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="mp-val-amp">200</span>
+              <span class="mp-knob-label">Amplitude</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob" data-param="rotAmp" data-min="0" data-max="180" data-value="0">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="mp-val-rotAmp">0</span>
+              <span class="mp-knob-label">Rot Amp</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob" data-param="rotFreq" data-min="0" data-max="5" data-value="1">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="mp-val-rotFreq">1</span>
+              <span class="mp-knob-label">Rot Freq</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob" data-param="rotPhase" data-min="0" data-max="360" data-value="0">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="mp-val-rotPhase">0</span>
+              <span class="mp-knob-label">Rot Phase&deg;</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob" data-param="rotDecay" data-min="0" data-max="0.05" data-value="0">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="mp-val-rotDecay">0</span>
+              <span class="mp-knob-label">Rot Decay</span>
+            </div>
+          </div>
+
+          <!-- Speed + Scale row -->
+          <div class="mp-bottom-row">
+            <div class="mp-knob-item mp-knob-item-sm">
+              <div class="mp-knob mp-knob-sm" data-param="speed" data-min="0.05" data-max="2" data-value="0.25">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="mp-val-speed">0.25</span>
+              <span class="mp-knob-label">Speed</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob mp-knob-scale" data-param="scale" data-min="0.1" data-max="3" data-value="1">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc mp-knob-arc-scale" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(0 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-label">Scale</span>
+            </div>
           </div>
         </div>
 
-        <div class="controls-section">
-          <div class="knobs-grid">
-            <div class="knob-row">
-              <div class="knob-container" data-param="freqX" data-min="1" data-max="8" data-value="3" data-target="pendulum">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-freqX" value="3.0">
-              <span class="knob-label">Freq X</span>
-            </div>
-
-            <div class="knob-row">
-              <div class="knob-container" data-param="freqY" data-min="1" data-max="8" data-value="2" data-target="pendulum">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-freqY" value="2.0">
-              <span class="knob-label">Freq Y</span>
-            </div>
-
-            <div class="knob-row">
-              <div class="knob-container" data-param="phase" data-min="0" data-max="360" data-value="90" data-target="pendulum">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-phase" value="90">
-              <span class="knob-label">Phase</span>
-            </div>
-
-            <div class="knob-row">
-              <div class="knob-container" data-param="decay" data-min="0.001" data-max="0.05" data-value="0.008" data-target="pendulum">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-decay" value="0.008">
-              <span class="knob-label">Decay</span>
-            </div>
-
-            <div class="knob-row">
-              <div class="knob-container" data-param="amp" data-min="20" data-max="150" data-value="120" data-target="pendulum">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-amp" value="120">
-              <span class="knob-label">Amplitude</span>
-            </div>
+        <div class="mp-actions">
+          <div class="mp-btn-group">
+            <button class="mp-btn" id="pendulum-start">Start</button>
+            <button class="mp-btn" id="pendulum-pause">Pause</button>
+            <button class="mp-btn mp-btn-active" id="pendulum-stop">Stop</button>
           </div>
-
-          <div class="buttons-row">
-            <button class="btn secondary" id="pendulum-start">Start</button>
-            <button class="btn secondary" id="pendulum-pause">Pause</button>
-            <button class="btn outline" id="pendulum-reset">Reset</button>
+          <div class="mp-btn-group">
+            <button class="mp-btn" id="pendulum-reset">Clear</button>
+            <button class="mp-btn" id="pendulum-simplify">Simplify</button>
+            <button class="mp-btn" id="pendulum-apply">Apply</button>
           </div>
         </div>
       </div>
@@ -2138,11 +2387,7 @@
       if (!activeKnob) return;
       const min = parseFloat(activeKnob.dataset.min), max = parseFloat(activeKnob.dataset.max);
       const newValue = startValue - (e.clientY - startY) * (max - min) / 150;
-      if (activeKnob.dataset.target === 'pendulum') {
-        setPendulumKnobValue(activeKnob, newValue);
-      } else {
-        setKnobValue(activeKnob, newValue);
-      }
+      setKnobValue(activeKnob, newValue);
     });
     document.addEventListener('mouseup', () => { activeKnob = null; });
 
@@ -2163,9 +2408,11 @@
       document.getElementById('stat-time').textContent = state.time.toFixed(2) + 's';
     }
 
-    // ==================== HARMONOGRAPH ====================
-    const pendulumState = {
-      freqX: 3, freqY: 2, phase: 90, decay: 0.008, amp: 120,
+    // ==================== MOTION PATH (Panel-style) ====================
+    const mpState = {
+      freqX: 3, freqY: 2, phase: 90, phaseY: 0,
+      decay: 0.008, amp: 200, speed: 0.25,
+      rotAmp: 0, rotFreq: 1, rotPhase: 0, rotDecay: 0, scale: 1,
       running: false, paused: false, t: 0, points: []
     };
 
@@ -2181,127 +2428,179 @@
     resizePendulumCanvas();
     window.addEventListener('resize', resizePendulumCanvas);
 
-    function generatePendulumPoint(t) {
+    function generateMPPoint(t) {
       const rect = pendulumCanvas.getBoundingClientRect();
       const cx = rect.width / 2, cy = rect.height / 2;
-      const phaseXRad = pendulumState.phase * Math.PI / 180;
-      const phaseYRad = 0; // Y phase at 0 for classic Lissajous
-      
-      // Proper harmonograph formula: A * sin(f*t + phase) * e^(-decay*t)
-      // Scale t to match expected time units (t in "seconds" not frames)
-      const timeScale = t * 0.05; // Much slower time progression
-      const dampFactor = Math.exp(-pendulumState.decay * timeScale);
-      
-      const x = pendulumState.amp * Math.sin(pendulumState.freqX * timeScale + phaseXRad) * dampFactor;
-      const y = pendulumState.amp * Math.sin(pendulumState.freqY * timeScale + phaseYRad) * dampFactor;
-      
+      const phaseXRad = mpState.phase * Math.PI / 180;
+      const phaseYRad = mpState.phaseY * Math.PI / 180;
+      const timeScale = t * 0.05;
+      const dampFactor = Math.exp(-mpState.decay * timeScale);
+
+      let x = mpState.amp * Math.sin(mpState.freqX * timeScale + phaseXRad) * dampFactor;
+      let y = mpState.amp * Math.sin(mpState.freqY * timeScale + phaseYRad) * dampFactor;
+
+      // Rotation pendulum
+      if (mpState.rotAmp > 0) {
+        const rotPhaseRad = mpState.rotPhase * Math.PI / 180;
+        const rotDamp = Math.exp(-(mpState.rotDecay || 0) * timeScale);
+        const angle = mpState.rotAmp * Math.PI / 180 * Math.sin(mpState.rotFreq * timeScale + rotPhaseRad) * rotDamp;
+        const rx = x * Math.cos(angle) - y * Math.sin(angle);
+        const ry = x * Math.sin(angle) + y * Math.cos(angle);
+        x = rx; y = ry;
+      }
+
+      x *= mpState.scale;
+      y *= mpState.scale;
+
       return { x: cx + x, y: cy + y };
     }
 
-    function renderPendulum() {
+    function renderMP() {
       const rect = pendulumCanvas.getBoundingClientRect();
       pendulumCtx.clearRect(0, 0, rect.width, rect.height);
+      const cx = rect.width / 2, cy = rect.height / 2;
 
-      // Grid
-      pendulumCtx.strokeStyle = 'rgba(238, 69, 64, 0.04)';
+      // Center crosshairs (matches panel: #3a3a40)
+      pendulumCtx.strokeStyle = '#3a3a40';
       pendulumCtx.lineWidth = 1;
-      for (let x = 0; x < rect.width; x += 40) { pendulumCtx.beginPath(); pendulumCtx.moveTo(x, 0); pendulumCtx.lineTo(x, rect.height); pendulumCtx.stroke(); }
-      for (let y = 0; y < rect.height; y += 40) { pendulumCtx.beginPath(); pendulumCtx.moveTo(0, y); pendulumCtx.lineTo(rect.width, y); pendulumCtx.stroke(); }
+      pendulumCtx.beginPath();
+      pendulumCtx.moveTo(cx, 0); pendulumCtx.lineTo(cx, rect.height);
+      pendulumCtx.stroke();
+      pendulumCtx.beginPath();
+      pendulumCtx.moveTo(0, cy); pendulumCtx.lineTo(rect.width, cy);
+      pendulumCtx.stroke();
 
-      // Boundary
-      pendulumCtx.strokeStyle = 'rgba(238, 69, 64, 0.2)';
-      pendulumCtx.lineWidth = 1;
-      pendulumCtx.strokeRect(0.5, 0.5, rect.width - 1, rect.height - 1);
-
-      // Draw path
-      if (pendulumState.points.length > 1) {
-        pendulumCtx.strokeStyle = '#EE4540';
-        pendulumCtx.lineWidth = 2;
+      // Draw path (white, like panel)
+      if (mpState.points.length > 1) {
+        pendulumCtx.strokeStyle = '#ffffff';
+        pendulumCtx.lineWidth = 1.5;
         pendulumCtx.lineCap = 'round';
         pendulumCtx.lineJoin = 'round';
         pendulumCtx.beginPath();
-        pendulumCtx.moveTo(pendulumState.points[0].x, pendulumState.points[0].y);
-        for (let i = 1; i < pendulumState.points.length; i++) {
-          pendulumCtx.lineTo(pendulumState.points[i].x, pendulumState.points[i].y);
+        pendulumCtx.moveTo(mpState.points[0].x, mpState.points[0].y);
+        for (let i = 1; i < mpState.points.length; i++) {
+          pendulumCtx.lineTo(mpState.points[i].x, mpState.points[i].y);
         }
         pendulumCtx.stroke();
       }
 
-      // Draw current position dot
-      if (pendulumState.points.length > 0) {
-        const last = pendulumState.points[pendulumState.points.length - 1];
+      // Current position dot
+      if (mpState.points.length > 0) {
+        const last = mpState.points[mpState.points.length - 1];
         pendulumCtx.fillStyle = '#fff';
         pendulumCtx.beginPath();
-        pendulumCtx.arc(last.x, last.y, 4, 0, Math.PI * 2);
+        pendulumCtx.arc(last.x, last.y, 3.5, 0, Math.PI * 2);
         pendulumCtx.fill();
       }
+
+      // Update point count
+      document.getElementById('mp-point-count').textContent = mpState.points.length + ' points';
     }
 
-    function animatePendulum() {
-      if (pendulumState.running && !pendulumState.paused) {
-        pendulumState.t += 0.5; // Half speed - was 1
-        const pt = generatePendulumPoint(pendulumState.t);
-        pendulumState.points.push(pt);
+    function animateMP() {
+      if (mpState.running && !mpState.paused) {
+        mpState.t += mpState.speed;
+        const pt = generateMPPoint(mpState.t);
+        mpState.points.push(pt);
       }
-      renderPendulum();
-      requestAnimationFrame(animatePendulum);
+      renderMP();
+      requestAnimationFrame(animateMP);
     }
-    animatePendulum();
+    animateMP();
 
-    // Pendulum knobs
-    const pendulumKnobs = document.querySelectorAll('.knob-container[data-target="pendulum"]');
-    pendulumKnobs.forEach(knob => {
-      updateKnobVisual(knob, parseFloat(knob.dataset.value));
-      knob.addEventListener('mousedown', e => { activeKnob = knob; startY = e.clientY; startValue = parseFloat(knob.dataset.value); e.preventDefault(); });
+    // SVG Knob system for motion path
+    const MP_ARC_TOTAL = 2 * Math.PI * 38; // circumference for r=38
+    const MP_ARC_RANGE = MP_ARC_TOTAL * (270 / 360); // 270 degrees of arc
+
+    function updateMPKnob(knobEl, value) {
+      const min = parseFloat(knobEl.dataset.min), max = parseFloat(knobEl.dataset.max);
+      const normalized = (value - min) / (max - min);
+      const arcLen = normalized * MP_ARC_RANGE;
+      const arc = knobEl.querySelector('.mp-knob-arc');
+      if (arc) arc.setAttribute('stroke-dasharray', arcLen + ' ' + MP_ARC_TOTAL);
+      const indicator = knobEl.querySelector('.mp-knob-indicator');
+      if (indicator) indicator.setAttribute('transform', 'rotate(' + (-135 + normalized * 270) + ' 50 50)');
+    }
+
+    function setMPKnobValue(knobEl, value) {
+      const param = knobEl.dataset.param;
+      const min = parseFloat(knobEl.dataset.min), max = parseFloat(knobEl.dataset.max);
+      value = Math.max(min, Math.min(max, value));
+      knobEl.dataset.value = value;
+      mpState[param] = value;
+      updateMPKnob(knobEl, value);
+
+      // Update display
+      const valEl = document.getElementById('mp-val-' + param);
+      if (valEl) {
+        if (param === 'decay' || param === 'rotDecay') valEl.textContent = value.toFixed(3);
+        else if (param === 'speed') valEl.textContent = value.toFixed(2);
+        else if (param === 'amp' || param === 'phase' || param === 'phaseY' || param === 'rotAmp' || param === 'rotPhase') valEl.textContent = Math.round(value);
+        else valEl.textContent = Number.isInteger(value) ? value : value.toFixed(1);
+      }
+    }
+
+    // Init all mp knobs
+    let mpActiveKnob = null, mpStartY = 0, mpStartValue = 0;
+    const mpKnobs = document.querySelectorAll('.mp-knob');
+    mpKnobs.forEach(knob => {
+      const val = parseFloat(knob.dataset.value);
+      mpState[knob.dataset.param] = val;
+      updateMPKnob(knob, val);
+
+      knob.addEventListener('mousedown', e => {
+        mpActiveKnob = knob;
+        mpStartY = e.clientY;
+        mpStartValue = parseFloat(knob.dataset.value);
+        e.preventDefault();
+      });
       knob.addEventListener('wheel', e => {
         e.preventDefault();
         const min = parseFloat(knob.dataset.min), max = parseFloat(knob.dataset.max);
-        setPendulumKnobValue(knob, parseFloat(knob.dataset.value) - e.deltaY * (max - min) / 1000);
-      });
-      document.getElementById(`val-${knob.dataset.param}`).addEventListener('change', function() {
-        setPendulumKnobValue(knob, parseFloat(this.value) || 0);
+        setMPKnobValue(knob, parseFloat(knob.dataset.value) - e.deltaY * (max - min) / 1000);
       });
     });
 
-    function setPendulumKnobValue(knob, value) {
-      const param = knob.dataset.param;
-      const min = parseFloat(knob.dataset.min), max = parseFloat(knob.dataset.max);
-      value = Math.max(min, Math.min(max, value));
-      knob.dataset.value = value;
-      pendulumState[param] = value;
-      // Use appropriate decimal places based on parameter
-      let decimals = 1;
-      if (param === 'decay') decimals = 3;
-      else if (param === 'phase' || param === 'amp') decimals = 0;
-      document.getElementById(`val-${param}`).value = value.toFixed(decimals);
-      updateKnobVisual(knob, value);
-    }
+    document.addEventListener('mousemove', e => {
+      if (!mpActiveKnob) return;
+      const min = parseFloat(mpActiveKnob.dataset.min), max = parseFloat(mpActiveKnob.dataset.max);
+      const newValue = mpStartValue - (e.clientY - mpStartY) * (max - min) / 150;
+      setMPKnobValue(mpActiveKnob, newValue);
+    });
+    document.addEventListener('mouseup', () => { mpActiveKnob = null; });
 
-    // Pendulum buttons
+    // Motion path buttons
     document.getElementById('pendulum-start').addEventListener('click', () => {
-      pendulumState.running = true;
-      pendulumState.paused = false;
+      mpState.running = true; mpState.paused = false;
     });
     document.getElementById('pendulum-pause').addEventListener('click', () => {
-      pendulumState.paused = !pendulumState.paused;
-      document.getElementById('pendulum-pause').textContent = pendulumState.paused ? 'Resume' : 'Pause';
+      mpState.paused = !mpState.paused;
+      document.getElementById('pendulum-pause').textContent = mpState.paused ? 'Resume' : 'Pause';
+    });
+    document.getElementById('pendulum-stop').addEventListener('click', () => {
+      mpState.running = false; mpState.paused = false;
     });
     document.getElementById('pendulum-reset').addEventListener('click', () => {
-      pendulumState.t = 0;
-      pendulumState.points = [];
-      renderPendulum();
+      mpState.t = 0; mpState.points = []; renderMP();
+    });
+    document.getElementById('pendulum-simplify').addEventListener('click', () => {
+      if (mpState.points.length < 3) return;
+      const newPts = [];
+      for (let i = 0; i < mpState.points.length; i += 2) newPts.push(mpState.points[i]);
+      if (mpState.points.length % 2 === 0) newPts.push(mpState.points[mpState.points.length - 1]);
+      mpState.points = newPts;
+      renderMP();
     });
 
-    // Auto-start pendulum when in view
-    const pendulumObserver = new IntersectionObserver((entries) => {
+    // Auto-start when in view
+    const mpObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && !pendulumState.running) {
-          pendulumState.running = true;
-          pendulumState.paused = false;
+        if (entry.isIntersecting && !mpState.running) {
+          mpState.running = true; mpState.paused = false;
         }
       });
     }, { threshold: 0.3 });
-    pendulumObserver.observe(document.getElementById('pendulum-canvas'));
+    mpObserver.observe(pendulumCanvas);
   </script>
 </body>
 </html>
