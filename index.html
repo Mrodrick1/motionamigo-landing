@@ -837,11 +837,7 @@
       stroke: #6aadff;
     }
     .mp-knob-body {
-      fill: url(#mpKnobBody);
-      transition: fill 0.15s ease;
-    }
-    .mp-knob:hover .mp-knob-body {
-      fill: #222228;
+      fill: transparent;
     }
     .mp-knob-indicator {
       stroke: #fff;
@@ -862,21 +858,6 @@
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-    }
-    .mp-knob-sm {
-      width: 44px;
-      height: 44px;
-    }
-    .mp-knob-scale {
-      width: 68px;
-      height: 68px;
-    }
-    .mp-bottom-row {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 24px;
-      margin-top: 10px;
     }
     .mp-actions {
       display: flex;
@@ -1747,93 +1728,6 @@
               <span class="mp-knob-val" id="mp-val-decay">0.008</span>
               <span class="mp-knob-label">Decay</span>
             </div>
-            <div class="mp-knob-item">
-              <div class="mp-knob" data-param="amp" data-min="20" data-max="200" data-value="200">
-                <svg viewBox="0 0 100 100">
-                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
-                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
-                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
-                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
-                </svg>
-              </div>
-              <span class="mp-knob-val" id="mp-val-amp">200</span>
-              <span class="mp-knob-label">Amplitude</span>
-            </div>
-            <div class="mp-knob-item">
-              <div class="mp-knob" data-param="rotAmp" data-min="0" data-max="180" data-value="0">
-                <svg viewBox="0 0 100 100">
-                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
-                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
-                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
-                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
-                </svg>
-              </div>
-              <span class="mp-knob-val" id="mp-val-rotAmp">0</span>
-              <span class="mp-knob-label">Rot Amp</span>
-            </div>
-            <div class="mp-knob-item">
-              <div class="mp-knob" data-param="rotFreq" data-min="0" data-max="5" data-value="1">
-                <svg viewBox="0 0 100 100">
-                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
-                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
-                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
-                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
-                </svg>
-              </div>
-              <span class="mp-knob-val" id="mp-val-rotFreq">1</span>
-              <span class="mp-knob-label">Rot Freq</span>
-            </div>
-            <div class="mp-knob-item">
-              <div class="mp-knob" data-param="rotPhase" data-min="0" data-max="360" data-value="0">
-                <svg viewBox="0 0 100 100">
-                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
-                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
-                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
-                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
-                </svg>
-              </div>
-              <span class="mp-knob-val" id="mp-val-rotPhase">0</span>
-              <span class="mp-knob-label">Rot Phase&deg;</span>
-            </div>
-            <div class="mp-knob-item">
-              <div class="mp-knob" data-param="rotDecay" data-min="0" data-max="0.05" data-value="0">
-                <svg viewBox="0 0 100 100">
-                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
-                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
-                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
-                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
-                </svg>
-              </div>
-              <span class="mp-knob-val" id="mp-val-rotDecay">0</span>
-              <span class="mp-knob-label">Rot Decay</span>
-            </div>
-          </div>
-
-          <!-- Speed + Scale row -->
-          <div class="mp-bottom-row">
-            <div class="mp-knob-item mp-knob-item-sm">
-              <div class="mp-knob mp-knob-sm" data-param="speed" data-min="0.05" data-max="2" data-value="0.25">
-                <svg viewBox="0 0 100 100">
-                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
-                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
-                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
-                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
-                </svg>
-              </div>
-              <span class="mp-knob-val" id="mp-val-speed">0.25</span>
-              <span class="mp-knob-label">Speed</span>
-            </div>
-            <div class="mp-knob-item">
-              <div class="mp-knob mp-knob-scale" data-param="scale" data-min="0.1" data-max="3" data-value="1">
-                <svg viewBox="0 0 100 100">
-                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
-                  <circle class="mp-knob-arc mp-knob-arc-scale" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
-                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
-                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(0 50 50)"/>
-                </svg>
-              </div>
-              <span class="mp-knob-label">Scale</span>
-            </div>
           </div>
         </div>
 
@@ -1844,8 +1738,6 @@
             <button class="mp-btn mp-btn-active" id="pendulum-stop">Stop</button>
           </div>
           <div class="mp-btn-group">
-            <button class="mp-btn" id="pendulum-reset">Clear</button>
-            <button class="mp-btn" id="pendulum-simplify">Simplify</button>
             <button class="mp-btn" id="pendulum-apply">Apply</button>
           </div>
         </div>
@@ -2579,17 +2471,6 @@
     });
     document.getElementById('pendulum-stop').addEventListener('click', () => {
       mpState.running = false; mpState.paused = false;
-    });
-    document.getElementById('pendulum-reset').addEventListener('click', () => {
-      mpState.t = 0; mpState.points = []; renderMP();
-    });
-    document.getElementById('pendulum-simplify').addEventListener('click', () => {
-      if (mpState.points.length < 3) return;
-      const newPts = [];
-      for (let i = 0; i < mpState.points.length; i += 2) newPts.push(mpState.points[i]);
-      if (mpState.points.length % 2 === 0) newPts.push(mpState.points[mpState.points.length - 1]);
-      mpState.points = newPts;
-      renderMP();
     });
 
     // Auto-start when in view
