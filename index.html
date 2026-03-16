@@ -889,6 +889,57 @@
       border-color: #597b9f;
     }
 
+    /* ==================== PHYSICS CANVAS ==================== */
+    .phys-canvas-wrap {
+      position: relative;
+      border: 1px solid #597b9f;
+      border-radius: 6px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: transparent;
+    }
+    .phys-canvas-wrap canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .phys-stats {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      pointer-events: none;
+    }
+    .phys-stats div {
+      display: flex;
+      gap: 6px;
+      align-items: baseline;
+    }
+    .phys-stats-label {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .phys-stats-val {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .phys-gravity-arrow {
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      font-size: 18px;
+      color: var(--text-muted);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
     /* ==================== DEMO PANEL ==================== */
     .demo-panel {
       background: transparent;
@@ -1746,95 +1797,91 @@
   <!-- Physics Tester Feature Section -->
   <section class="feature-section">
     <div class="feature-layout">
-      <!-- Left: Interactive Demo -->
-      <div class="demo-panel">
-        <div class="demo-header">
-          <div class="demo-label">
-            <div class="demo-dot"></div>
-            <span class="demo-title">Connected</span>
-          </div>
-        </div>
-
-        <div class="canvas-container">
+      <!-- Left: Interactive Demo (panel-style) -->
+      <div class="mp-panel">
+        <div class="phys-canvas-wrap">
           <canvas id="canvas"></canvas>
-          <div class="stats-overlay">
-            <div><span class="label">Gravity</span><span class="value" id="stat-gravity">24.2</span></div>
-            <div><span class="label">Bounce</span><span class="value" id="stat-bounce">100%</span></div>
-            <div><span class="label">Friction</span><span class="value" id="stat-friction">0%</span></div>
-            <div><span class="label">Mass</span><span class="value" id="stat-mass">10.0</span></div>
-            <div><span class="label">Air Drag</span><span class="value" id="stat-airDrag">0.0</span></div>
-            <div><span class="label">Time</span><span class="value" id="stat-time">0.00s</span></div>
+          <div class="phys-stats">
+            <div><span class="phys-stats-label">Gravity</span><span class="phys-stats-val" id="stat-gravity">24.2</span></div>
+            <div><span class="phys-stats-label">Bounce</span><span class="phys-stats-val" id="stat-bounce">100%</span></div>
+            <div><span class="phys-stats-label">Friction</span><span class="phys-stats-val" id="stat-friction">0%</span></div>
+            <div><span class="phys-stats-label">Mass</span><span class="phys-stats-val" id="stat-mass">10.0</span></div>
+            <div><span class="phys-stats-label">Air Drag</span><span class="phys-stats-val" id="stat-airDrag">0.0</span></div>
+            <div><span class="phys-stats-label">Time</span><span class="phys-stats-val" id="stat-time">0.00s</span></div>
           </div>
-          <div class="gravity-arrow">↓</div>
-          <div class="crosshair">
-            <div class="crosshair-h"></div>
-            <div class="crosshair-v"></div>
-            <div class="crosshair-dot"></div>
+          <div class="phys-gravity-arrow">↓</div>
+        </div>
+
+        <div class="mp-knobs-area">
+          <div class="mp-knobs-grid">
+            <div class="mp-knob-item">
+              <div class="mp-knob phys-knob" data-param="gravity" data-min="0" data-max="100" data-value="24.2">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="phys-val-gravity">24.2</span>
+              <span class="mp-knob-label">Gravity</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob phys-knob" data-param="bounce" data-min="0" data-max="100" data-value="100">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="phys-val-bounce">100</span>
+              <span class="mp-knob-label">Bounce</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob phys-knob" data-param="friction" data-min="0" data-max="100" data-value="0">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="phys-val-friction">0</span>
+              <span class="mp-knob-label">Friction</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob phys-knob" data-param="mass" data-min="1" data-max="50" data-value="10">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="phys-val-mass">10.0</span>
+              <span class="mp-knob-label">Mass</span>
+            </div>
+            <div class="mp-knob-item">
+              <div class="mp-knob phys-knob" data-param="airDrag" data-min="0" data-max="10" data-value="0">
+                <svg viewBox="0 0 100 100">
+                  <circle class="mp-knob-track-bg" cx="50" cy="50" r="38"/>
+                  <circle class="mp-knob-arc" cx="50" cy="50" r="38" stroke-dasharray="0 239" transform="rotate(135 50 50)"/>
+                  <circle class="mp-knob-body" cx="50" cy="50" r="30"/>
+                  <line class="mp-knob-indicator" x1="50" y1="25" x2="50" y2="34" transform="rotate(-135 50 50)"/>
+                </svg>
+              </div>
+              <span class="mp-knob-val" id="phys-val-airDrag">0</span>
+              <span class="mp-knob-label">Air Drag</span>
+            </div>
           </div>
         </div>
 
-        <div class="controls-section">
-          <div class="knobs-grid">
-            <div class="knob-row">
-              <div class="knob-container" data-param="gravity" data-min="0" data-max="100" data-value="24.2">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-gravity" value="24.2">
-              <span class="knob-label">Gravity</span>
-            </div>
-
-            <div class="knob-row">
-              <div class="knob-container" data-param="bounce" data-min="0" data-max="100" data-value="100">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-bounce" value="100.0">
-              <span class="knob-label">Bounce</span>
-            </div>
-
-            <div class="knob-row">
-              <div class="knob-container" data-param="friction" data-min="0" data-max="100" data-value="0">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-friction" value="0.0">
-              <span class="knob-label">Friction</span>
-            </div>
-
-            <div class="knob-row">
-              <div class="knob-container" data-param="mass" data-min="1" data-max="50" data-value="10">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-mass" value="10.0">
-              <span class="knob-label">Mass</span>
-            </div>
-
-            <div class="knob-row">
-              <div class="knob-container" data-param="airDrag" data-min="0" data-max="10" data-value="0">
-                <div class="knob-track"></div>
-                <div class="knob">
-                  <div class="knob-indicator"></div>
-                </div>
-              </div>
-              <input type="text" class="knob-value" id="val-airDrag" value="0.0">
-              <span class="knob-label">Air Drag</span>
-            </div>
-          </div>
-
-          <div class="buttons-row">
-            <button class="btn secondary" id="btn-start">Start</button>
-            <button class="btn secondary" id="btn-pause">Pause</button>
-            <button class="btn outline" id="btn-reset">Reset</button>
+        <div class="mp-actions">
+          <div class="mp-btn-group">
+            <button class="mp-btn" id="btn-start">Start</button>
+            <button class="mp-btn" id="btn-pause">Pause</button>
+            <button class="mp-btn" id="btn-reset">Reset</button>
           </div>
         </div>
       </div>
@@ -2210,16 +2257,12 @@
       const rect = canvas.getBoundingClientRect();
       ctx.clearRect(0, 0, rect.width, rect.height);
 
-      // Grid
-      ctx.strokeStyle = 'rgba(238, 69, 64, 0.04)';
+      // Center crosshairs (matches panel: #3a3a40)
+      const cx = rect.width / 2, cy = rect.height / 2;
+      ctx.strokeStyle = '#3a3a40';
       ctx.lineWidth = 1;
-      for (let x = 0; x < rect.width; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, rect.height); ctx.stroke(); }
-      for (let y = 0; y < rect.height; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(rect.width, y); ctx.stroke(); }
-
-      // Boundary
-      ctx.strokeStyle = 'rgba(238, 69, 64, 0.2)';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(0.5, 0.5, rect.width - 1, rect.height - 1);
+      ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, rect.height); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(rect.width, cy); ctx.stroke();
 
       // Objects - NO glow
       objects.forEach(obj => {
@@ -2244,43 +2287,49 @@
     }
     requestAnimationFrame(animate);
 
-    // Knobs - Physics only (no data-target attribute)
-    const knobs = document.querySelectorAll('.knob-container:not([data-target])');
-    let activeKnob = null, startY = 0, startValue = 0;
+    // Physics SVG knobs
+    const PHYS_ARC_TOTAL = 2 * Math.PI * 38;
+    const PHYS_ARC_RANGE = PHYS_ARC_TOTAL * (270 / 360);
+    let physActiveKnob = null, physStartY = 0, physStartValue = 0;
 
-    function updateKnobVisual(knob, value) {
-      const min = parseFloat(knob.dataset.min), max = parseFloat(knob.dataset.max);
+    function updatePhysKnob(knobEl, value) {
+      const min = parseFloat(knobEl.dataset.min), max = parseFloat(knobEl.dataset.max);
       const normalized = (value - min) / (max - min);
-      const arcAngle = normalized * 270;
-      knob.querySelector('.knob-track').style.setProperty('--knob-arc-angle', arcAngle + 'deg');
-      knob.querySelector('.knob-indicator').style.transform = `rotate(${-135 + arcAngle}deg)`;
+      const arcLen = normalized * PHYS_ARC_RANGE;
+      const arc = knobEl.querySelector('.mp-knob-arc');
+      if (arc) arc.setAttribute('stroke-dasharray', arcLen + ' ' + PHYS_ARC_TOTAL);
+      const indicator = knobEl.querySelector('.mp-knob-indicator');
+      if (indicator) indicator.setAttribute('transform', 'rotate(' + (-135 + normalized * 270) + ' 50 50)');
     }
 
-    function setKnobValue(knob, value) {
-      const param = knob.dataset.param;
-      const min = parseFloat(knob.dataset.min), max = parseFloat(knob.dataset.max);
+    function setPhysKnobValue(knobEl, value) {
+      const param = knobEl.dataset.param;
+      const min = parseFloat(knobEl.dataset.min), max = parseFloat(knobEl.dataset.max);
       value = Math.max(min, Math.min(max, value));
-      knob.dataset.value = value;
+      knobEl.dataset.value = value;
       state[param] = value;
-      document.getElementById(`val-${param}`).value = value.toFixed(1);
-      updateKnobVisual(knob, value);
+      updatePhysKnob(knobEl, value);
+      const valEl = document.getElementById('phys-val-' + param);
+      if (valEl) valEl.textContent = param === 'bounce' || param === 'friction' ? Math.round(value) : value.toFixed(1);
       updateStats();
     }
 
-    knobs.forEach(knob => {
-      updateKnobVisual(knob, parseFloat(knob.dataset.value));
-      knob.addEventListener('mousedown', e => { activeKnob = knob; startY = e.clientY; startValue = parseFloat(knob.dataset.value); e.preventDefault(); });
-      knob.addEventListener('wheel', e => { e.preventDefault(); const min = parseFloat(knob.dataset.min), max = parseFloat(knob.dataset.max); setKnobValue(knob, parseFloat(knob.dataset.value) - e.deltaY * (max - min) / 1000); });
-      document.getElementById(`val-${knob.dataset.param}`).addEventListener('change', function() { setKnobValue(knob, parseFloat(this.value) || 0); });
+    const physKnobs = document.querySelectorAll('.phys-knob');
+    physKnobs.forEach(knob => {
+      const val = parseFloat(knob.dataset.value);
+      state[knob.dataset.param] = val;
+      updatePhysKnob(knob, val);
+      knob.addEventListener('mousedown', e => { physActiveKnob = knob; physStartY = e.clientY; physStartValue = parseFloat(knob.dataset.value); e.preventDefault(); });
+      knob.addEventListener('wheel', e => { e.preventDefault(); const min = parseFloat(knob.dataset.min), max = parseFloat(knob.dataset.max); setPhysKnobValue(knob, parseFloat(knob.dataset.value) - e.deltaY * (max - min) / 1000); });
     });
 
     document.addEventListener('mousemove', e => {
-      if (!activeKnob) return;
-      const min = parseFloat(activeKnob.dataset.min), max = parseFloat(activeKnob.dataset.max);
-      const newValue = startValue - (e.clientY - startY) * (max - min) / 150;
-      setKnobValue(activeKnob, newValue);
+      if (!physActiveKnob) return;
+      const min = parseFloat(physActiveKnob.dataset.min), max = parseFloat(physActiveKnob.dataset.max);
+      const newValue = physStartValue - (e.clientY - physStartY) * (max - min) / 150;
+      setPhysKnobValue(physActiveKnob, newValue);
     });
-    document.addEventListener('mouseup', () => { activeKnob = null; });
+    document.addEventListener('mouseup', () => { physActiveKnob = null; });
 
     // Buttons
     document.getElementById('btn-start').addEventListener('click', () => { state.running = true; state.paused = false; });
@@ -2433,7 +2482,7 @@
 
     // Init all mp knobs
     let mpActiveKnob = null, mpStartY = 0, mpStartValue = 0;
-    const mpKnobs = document.querySelectorAll('.mp-knob');
+    const mpKnobs = document.querySelectorAll('.mp-knob:not(.phys-knob)');
     mpKnobs.forEach(knob => {
       const val = parseFloat(knob.dataset.value);
       mpState[knob.dataset.param] = val;
