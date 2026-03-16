@@ -108,7 +108,7 @@
       color: var(--text-dim);
     }
 
-    .hero button {
+    .hero button:not(.hero-card-btn) {
       padding: 14px 28px;
       font-size: 1rem;
       font-weight: 600;
@@ -121,11 +121,11 @@
       font-family: inherit;
     }
 
-    .hero button:hover {
+    .hero button:not(.hero-card-btn):hover {
       background: #222;
     }
 
-    .hero button:active {
+    .hero button:not(.hero-card-btn):active {
       transform: scale(0.98);
     }
 
@@ -217,7 +217,7 @@
     .hero-card-btn-secondary {
       background: transparent;
       color: #fff;
-      border: 1px solid var(--border-color);
+      border: 1px solid #3b7dd8;
     }
     .hero-card-error {
       color: #ff4444;
