@@ -823,8 +823,7 @@
     }
     .mp-knob-track-bg {
       fill: none;
-      stroke: #1a1a20;
-      stroke-width: 3;
+      stroke: none;
     }
     .mp-knob-arc {
       fill: none;
@@ -2303,7 +2302,7 @@
     // ==================== MOTION PATH (Panel-style) ====================
     const mpState = {
       freqX: 3, freqY: 2, phase: 90, phaseY: 0,
-      decay: 0.008, amp: 200, speed: 0.25,
+      decay: 0.008, amp: 50, speed: 0.25,
       rotAmp: 0, rotFreq: 1, rotPhase: 0, rotDecay: 0, scale: 1,
       running: false, paused: false, t: 0, points: []
     };
